@@ -64,8 +64,8 @@ export default function App() {
         </View>
       </View>
       <Button onPress={getLocation} title="Get Coords" />
-      <View style={styles.data}>
-        <Text style={styles.label}>Distance:</Text>
+      <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
+        <Text style={{ ...styles.label, fontWeight: "bold" }}>Distance:</Text>
         <Text style={styles.value}>{(distance * 111111.111).toFixed(2)} meters</Text>
       </View>
       <ScrollView>
@@ -110,5 +110,8 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 20,
+  },
+  marginVerticalMd: {
+    marginVertical: 30,
   },
 })
