@@ -37,7 +37,9 @@ export default function App() {
       return
     }
 
-    let location = await Location.getCurrentPositionAsync({})
+    let location = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Highest,
+    })
     const currentCoords = { lat: location.coords.latitude, long: location.coords.longitude }
     setCoords(currentCoords)
     setPositions([...positions, currentCoords])
