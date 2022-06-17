@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { calculateDistance } from './src/utils/helpers';
-import { locationService } from './src/utils/locationService';
+import { locationService2 } from './src/utils/locationService';
 
 type TErrorMessage = string | undefined
 
@@ -36,7 +36,7 @@ TaskManager.defineTask(
     }
     if (data.locations) {
       const { latitude, longitude } = data.locations[0].coords
-      locationService.setLocation({
+      locationService2.setLocation({
         lat: latitude,
         long: longitude,
       })
@@ -68,12 +68,12 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    locationService.subscribe(onLocationUpdate)
+    locationService2.subscribe(onLocationUpdate)
 
     return () => {
-      locationService.unsubscribe(onLocationUpdate)
+      locationService2.unsubscribe()
     }
-  })
+  }, [])
 
   const startTracking = async () => {
     setTracking(true)

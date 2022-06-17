@@ -15,7 +15,16 @@ const LocationService = () => {
 export const locationService = LocationService()
 
 const LocationService2 = () => {
+  let subscriber: any
   return {
-    setLocation: (coords: any) => {},
+    subscribe: (sub: any) => (subscriber = sub),
+    setLocation: (coords: any) => {
+      subscriber(coords)
+    },
+    unsubscribe: () => {
+      subscriber = null
+    },
   }
 }
+
+export const locationService2 = LocationService2()
