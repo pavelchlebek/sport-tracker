@@ -2,6 +2,7 @@ import React from 'react';
 
 import * as Location from 'expo-location';
 import { StatusBar } from 'expo-status-bar';
+import * as TaskManager from 'expo-task-manager';
 import {
   Button,
   ScrollView,
@@ -10,18 +11,38 @@ import {
   View,
 } from 'react-native';
 
+import { calculateDistance } from './src/utils/helpers';
+import { locationService } from './src/utils/locationService';
+
 type TErrorMessage = string | undefined
 
-type TLocation = {
+export type TLocation = {
   lat: number
   long: number
 }
 
-const calculateDistance = (prevPosition: TLocation, currentPosition: TLocation) => {
-  return Math.sqrt(
-    (prevPosition.lat - currentPosition.lat) ** 2 + (prevPosition.long - currentPosition.long) ** 2
-  )
+export type TLocationData = {
+  locations?: Location.LocationObject[]
 }
+
+const BACKGROUND_LOCATION_TASK = "background-location-task"
+
+TaskManager.defineTask(
+  BACKGROUND_LOCATION_TASK,
+  ({ data, error }: TaskManager.TaskManagerTaskBody<TLocationData>) => {
+    if (error) {
+      console.log("Error message: ", error.message)
+      return
+    }
+    if (data.locations) {
+      const { latitude, longitude } = data.locations[0].coords
+      locationService.setLocation({
+        lat: latitude,
+        long: longitude,
+      })
+    }
+  }
+)
 
 export default function App() {
   const [coords, setCoords] = React.useState<TLocation>()
@@ -30,25 +51,61 @@ export default function App() {
   const [positions, setPositions] = React.useState<TLocation[]>([])
   const [distance, setDistance] = React.useState(0)
 
-  const getLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync()
-    if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied")
-      return
-    }
+  const [tracking, setTracking] = React.useState(false)
 
-    let location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Highest,
-    })
-    const currentCoords = { lat: location.coords.latitude, long: location.coords.longitude }
-    setCoords(currentCoords)
-    setPositions([...positions, currentCoords])
+  // ----------------------------------------------------------------------
+
+  const onLocationUpdate = ({ lat, long }: TLocation) => {
+    setCoords({ lat, long })
+    setPositions((prev) => [...prev, { lat, long }])
     if (positions.length > 1) {
-      const currentDistanceDelta = calculateDistance(
-        positions[positions.length - 2],
-        positions[positions.length - 1]
-      )
-      setDistance((prev) => prev + currentDistanceDelta)
+      setDistance((prev) => {
+        return (
+          prev + calculateDistance(positions[positions.length - 2], positions[positions.length - 1])
+        )
+      })
+    }
+  }
+
+  React.useEffect(() => {
+    locationService.subscribe(onLocationUpdate)
+
+    return () => {
+      locationService.unsubscribe(onLocationUpdate)
+    }
+  })
+
+  const startTracking = async () => {
+    setTracking(true)
+    const backgroundPermissions = await Location.requestBackgroundPermissionsAsync()
+
+    if (backgroundPermissions.status === "granted") {
+      await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
+        accuracy: Location.Accuracy.BestForNavigation,
+        timeInterval: 5000,
+        distanceInterval: 0,
+        deferredUpdatesInterval: 0,
+        foregroundService: {
+          notificationTitle: "Probíha geolokace na pozadí",
+          notificationBody: "To turn off....",
+        },
+      })
+    }
+  }
+
+  const stopTracking = async () => {
+    setTracking(false)
+    const value = await Location.hasStartedLocationUpdatesAsync(BACKGROUND_LOCATION_TASK)
+    if (value) {
+      Location.stopLocationUpdatesAsync(BACKGROUND_LOCATION_TASK)
+    }
+  }
+
+  const handleTracking = () => {
+    if (tracking) {
+      stopTracking()
+    } else {
+      startTracking()
     }
   }
 
@@ -65,7 +122,7 @@ export default function App() {
           <Text style={styles.value}>{coords?.long}</Text>
         </View>
       </View>
-      <Button onPress={getLocation} title="Get Coords" />
+      <Button onPress={handleTracking} title={tracking ? "Stop Tracking" : "Start Tracking"} />
       <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
         <Text style={{ ...styles.label, fontWeight: "bold" }}>Distance:</Text>
         <Text style={styles.value}>{(distance * 111111.111).toFixed(2)} meters</Text>
