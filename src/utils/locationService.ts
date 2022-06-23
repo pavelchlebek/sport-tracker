@@ -1,13 +1,17 @@
+import { TLocation } from '../../App';
+
+export type TSubscriber = ({ long, lat }: TLocation) => void
+
 const LocationService = () => {
-  let subscribers: any = []
+  let subscribers: TSubscriber[] = []
 
   return {
-    subscribe: (sub: any) => subscribers.push(sub),
-    setLocation: (coords: any) => {
-      subscribers.forEach((sub: any) => sub(coords))
+    subscribe: (sub: TSubscriber) => subscribers.push(sub),
+    setLocation: (coords: TLocation) => {
+      subscribers.forEach((sub: TSubscriber) => sub(coords))
     },
-    unsubscribe: (sub: any) => {
-      subscribers = subscribers.filter((_sub: any) => _sub !== sub)
+    unsubscribe: (sub: TSubscriber) => {
+      subscribers = subscribers.filter((_sub: TSubscriber) => _sub !== sub)
     },
   }
 }

@@ -45,8 +45,7 @@ TaskManager.defineTask(
 )
 
 export default function App() {
-  const [coords, setCoords] = React.useState<TLocation>()
-  const [errorMsg, setErrorMsg] = React.useState<TErrorMessage>()
+  const [errorMsg, setErrorMsg] = React.useState<unknown>()
 
   const [positions, setPositions] = React.useState<TLocation[]>([])
   const [distance, setDistance] = React.useState(0)
@@ -56,13 +55,14 @@ export default function App() {
   // ----------------------------------------------------------------------
 
   const onLocationUpdate = ({ lat, long }: TLocation) => {
-    setCoords({ lat, long })
     setPositions((prev) => {
       const updatedPositions = [...prev]
       updatedPositions.push({ lat, long })
       return updatedPositions
     })
-    console.log(positions.length)
+  }
+
+  React.useEffect(() => {
     if (positions.length > 1) {
       setDistance((prev) => {
         return (
@@ -70,7 +70,7 @@ export default function App() {
         )
       })
     }
-  }
+  }, [positions])
 
   React.useEffect(() => {
     locationService.subscribe(onLocationUpdate)
@@ -82,19 +82,24 @@ export default function App() {
 
   const startTracking = async () => {
     setTracking(true)
-    const backgroundPermissions = await Location.requestBackgroundPermissionsAsync()
 
-    if (backgroundPermissions.status === "granted") {
-      await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
-        accuracy: Location.Accuracy.BestForNavigation,
-        timeInterval: 5000,
-        distanceInterval: 0,
-        deferredUpdatesInterval: 0,
-        foregroundService: {
-          notificationTitle: "Probíha geolokace na pozadí",
-          notificationBody: "To turn off....",
-        },
-      })
+    try {
+      const backgroundPermissions = await Location.requestBackgroundPermissionsAsync()
+
+      if (backgroundPermissions.status === "granted") {
+        await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
+          accuracy: Location.Accuracy.BestForNavigation,
+          timeInterval: 5000,
+          distanceInterval: 0,
+          deferredUpdatesInterval: 0,
+          foregroundService: {
+            notificationTitle: "Probíha geolokace na pozadí",
+            notificationBody: "To turn off....",
+          },
+        })
+      }
+    } catch (err) {
+      setErrorMsg(err)
     }
   }
 
@@ -120,11 +125,15 @@ export default function App() {
       <View style={styles.coords}>
         <View style={styles.data}>
           <Text style={styles.label}>Latitude:</Text>
-          <Text style={styles.value}>{coords?.lat}</Text>
+          <Text style={styles.value}>
+            {positions.length > 0 && positions[positions.length - 1].lat}
+          </Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.label}>Longitude:</Text>
-          <Text style={styles.value}>{coords?.long}</Text>
+          <Text style={styles.value}>
+            {positions.length > 0 && positions[positions.length - 1].long}
+          </Text>
         </View>
       </View>
       <Button onPress={handleTracking} title={tracking ? "Stop Tracking" : "Start Tracking"} />
