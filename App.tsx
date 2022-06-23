@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { calculateDistance } from './src/utils/helpers';
-import { locationService2 } from './src/utils/locationService';
+import { locationService } from './src/utils/locationService';
 
 type TErrorMessage = string | undefined
 
@@ -36,7 +36,7 @@ TaskManager.defineTask(
     }
     if (data.locations) {
       const { latitude, longitude } = data.locations[0].coords
-      locationService2.setLocation({
+      locationService.setLocation({
         lat: latitude,
         long: longitude,
       })
@@ -57,7 +57,12 @@ export default function App() {
 
   const onLocationUpdate = ({ lat, long }: TLocation) => {
     setCoords({ lat, long })
-    setPositions((prev) => [...prev, { lat, long }])
+    setPositions((prev) => {
+      const updatedPositions = [...prev]
+      updatedPositions.push({ lat, long })
+      return updatedPositions
+    })
+    console.log(positions.length)
     if (positions.length > 1) {
       setDistance((prev) => {
         return (
@@ -68,10 +73,10 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    locationService2.subscribe(onLocationUpdate)
+    locationService.subscribe(onLocationUpdate)
 
     return () => {
-      locationService2.unsubscribe()
+      locationService.unsubscribe(onLocationUpdate)
     }
   }, [])
 
@@ -126,6 +131,10 @@ export default function App() {
       <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
         <Text style={{ ...styles.label, fontWeight: "bold" }}>Distance:</Text>
         <Text style={styles.value}>{(distance * 111111.111).toFixed(2)} meters</Text>
+      </View>
+      <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
+        <Text style={{ ...styles.label, fontWeight: "bold" }}>Positions Count:</Text>
+        <Text style={styles.value}>{positions.length}</Text>
       </View>
       <ScrollView>
         {positions.map((position, index) => {
