@@ -1,4 +1,4 @@
-import { TLocation } from '../../App';
+import { TLocation } from '../screens/TrackingScreen';
 
 export type TSubscriber = ({ long, lat }: TLocation) => void
 

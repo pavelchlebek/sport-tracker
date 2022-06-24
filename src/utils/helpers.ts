@@ -1,4 +1,4 @@
-import { TLocation } from '../../App';
+import { TLocation } from '../screens/TrackingScreen';
 
 export const calculateDistance = (prevPosition: TLocation, currentPosition: TLocation) => {
   return Math.sqrt(
