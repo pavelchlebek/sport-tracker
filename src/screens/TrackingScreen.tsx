@@ -92,7 +92,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
       if (backgroundPermissions.status === "granted") {
         await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
-          accuracy: Location.Accuracy.BestForNavigation,
+          accuracy: 6,
           timeInterval: 5000,
           distanceInterval: 0,
           deferredUpdatesInterval: 0,
@@ -124,7 +124,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.screen}>
       <StatusBar style="auto" />
       <View style={styles.coords}>
         <View style={styles.data}>
@@ -170,7 +170,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",

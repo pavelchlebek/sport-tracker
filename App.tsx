@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -15,11 +17,13 @@ const Tab = createBottomTabNavigator<RootTabParamList>()
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Settings" component={SettingsScreen} />
-        <Tab.Screen name="Tracking" component={TrackingScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+          <Tab.Screen name="Settings" component={SettingsScreen} />
+          <Tab.Screen name="Tracking" component={TrackingScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   )
 }

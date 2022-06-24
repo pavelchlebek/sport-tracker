@@ -1,0 +1,25 @@
+{
+  "react functional component": {
+    "scope": "typescriptreact",
+    "prefix": "fc",
+    "body": [
+      "import React from 'react'",
+      "",
+      "import { View } from 'react-native'",
+      "",
+      "type TProps = {",
+      "\t${2}",
+      "}",
+      "",
+      "export const ${1:$TM_FILENAME_BASE}: React.FC<TProps> = ({ ${3:props} }) => {",
+      "\t$5",
+      "\t",
+      "\treturn (",
+      "\t<View style={{flex: 1, alignItems: 'center'}}></View>",
+      "\t)",
+      "}",
+      ""
+    ],
+    "description": "React functional component with children"
+  }
+}
