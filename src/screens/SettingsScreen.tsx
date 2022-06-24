@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   timeInterval: {
     alignItems: "center",
     // backgroundColor: colorPrimaryGray,
-    marginBottom: marginSmall,
+    marginBottom: marginMedium,
   },
   label: {
     fontSize: textLarge,

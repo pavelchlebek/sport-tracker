@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 
+import { useLocationContext } from '../store/LocationContext';
 import { calculateDistance } from '../utils/helpers';
 import { locationService } from '../utils/locationService';
 
@@ -55,6 +56,10 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   const [tracking, setTracking] = React.useState(false)
 
+  //----------- LocationContext stuff -------------------------------------
+
+  const locationContext = useLocationContext()
+
   // ----------------------------------------------------------------------
 
   const onLocationUpdate = ({ lat, long }: TLocation) => {
@@ -96,9 +101,11 @@ export const TrackingScreen: React.FC<TProps> = () => {
           timeInterval: 5000,
           distanceInterval: 0,
           deferredUpdatesInterval: 0,
+          showsBackgroundLocationIndicator: true,
           foregroundService: {
             notificationTitle: "Probíha geolokace na pozadí",
             notificationBody: "To turn off....",
+            killServiceOnDestroy: false,
           },
         })
       }
@@ -118,8 +125,10 @@ export const TrackingScreen: React.FC<TProps> = () => {
   const handleTracking = () => {
     if (tracking) {
       stopTracking()
+      locationContext.setTracking(false)
     } else {
       startTracking()
+      locationContext.setTracking(true)
     }
   }
 
@@ -165,6 +174,9 @@ export const TrackingScreen: React.FC<TProps> = () => {
           )
         })}
       </ScrollView>
+      <View>
+        <Text>{`Tracking: ${locationContext.tracking} Accuracy: ${locationContext.accuracy} TimeInterval: ${locationContext.timeInterval}`}</Text>
+      </View>
     </View>
   )
 }

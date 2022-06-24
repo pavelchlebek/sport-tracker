@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { TrackingScreen } from './src/screens/TrackingScreen';
+import { LocationContextProvider } from './src/store/LocationContext';
 
 type RootTabParamList = {
   Settings: undefined
@@ -18,12 +19,14 @@ const Tab = createBottomTabNavigator<RootTabParamList>()
 export default function App() {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
-          <Tab.Screen name="Settings" component={SettingsScreen} />
-          <Tab.Screen name="Tracking" component={TrackingScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <LocationContextProvider>
+        <NavigationContainer>
+          <Tab.Navigator screenOptions={{ headerShown: false }}>
+            <Tab.Screen name="Settings" component={SettingsScreen} />
+            <Tab.Screen name="Tracking" component={TrackingScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </LocationContextProvider>
     </SafeAreaProvider>
   )
 }
