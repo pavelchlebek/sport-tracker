@@ -12,8 +12,8 @@ type TLocationContextObject = {
 }
 
 const LocationContext = React.createContext<TLocationContextObject>({
-  timeInterval: 15,
-  accuracy: 3,
+  timeInterval: 5,
+  accuracy: 4,
   tracking: false,
   setTimeInterval: () => {},
   setAccuracy: () => {},
@@ -25,8 +25,8 @@ export const useLocationContext = () => {
 }
 
 export const LocationContextProvider: React.FC = ({ children }) => {
-  const [timeInterval, setTimeInterval] = React.useState(15)
-  const [accuracy, setAccuracy] = React.useState(3)
+  const [timeInterval, setTimeInterval] = React.useState(5)
+  const [accuracy, setAccuracy] = React.useState(4)
   const [tracking, setTracking] = React.useState(false)
 
   const contextValue: TLocationContextObject = {

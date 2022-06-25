@@ -21,6 +21,7 @@ import {
   textLarge,
   textMedium,
 } from '../themes/theme';
+import { showWarning } from '../utils/helpers';
 
 type TProps = {
   children?: never
@@ -37,35 +38,51 @@ export const SettingsScreen: React.FC<TProps> = () => {
 
   // -----------------------------------------------------------------------
 
+  const handleAccuracy = (accuracy: LocationAccuracy) => {
+    if (tracking) {
+      showWarning("Warning", "You cannot change settings while location service is running")
+      return
+    }
+    setAccuracy(accuracy)
+  }
+
+  const handleTimeInterval = (timeInterval: number) => {
+    if (tracking) {
+      showWarning("Warning", "You cannot change settings while location service is running")
+      return
+    }
+    setTimeInterval(timeInterval)
+  }
+
   const checkBoxes: React.ComponentProps<typeof AppCheckbox>[] = [
     {
       checked: accuracy === LocationAccuracy["Lowest"] ? true : false,
-      onPress: () => setAccuracy(LocationAccuracy["Lowest"]),
+      onPress: () => handleAccuracy(LocationAccuracy["Lowest"]),
       title: "Lowest",
     },
     {
       checked: accuracy === LocationAccuracy["Low"] ? true : false,
-      onPress: () => setAccuracy(LocationAccuracy["Low"]),
+      onPress: () => handleAccuracy(LocationAccuracy["Low"]),
       title: "Low",
     },
     {
       checked: accuracy === LocationAccuracy["Balanced"] ? true : false,
-      onPress: () => setAccuracy(LocationAccuracy["Balanced"]),
+      onPress: () => handleAccuracy(LocationAccuracy["Balanced"]),
       title: "Balanced",
     },
     {
       checked: accuracy === LocationAccuracy["High"] ? true : false,
-      onPress: () => setAccuracy(LocationAccuracy["High"]),
+      onPress: () => handleAccuracy(LocationAccuracy["High"]),
       title: "High",
     },
     {
       checked: accuracy === LocationAccuracy["Highest"] ? true : false,
-      onPress: () => setAccuracy(LocationAccuracy["Highest"]),
+      onPress: () => handleAccuracy(LocationAccuracy["Highest"]),
       title: "Highest",
     },
     {
       checked: accuracy === LocationAccuracy["BestForNavigation"] ? true : false,
-      onPress: () => setAccuracy(LocationAccuracy["BestForNavigation"]),
+      onPress: () => handleAccuracy(LocationAccuracy["BestForNavigation"]),
       title: "BestForNavigation",
     },
   ]
@@ -78,7 +95,7 @@ export const SettingsScreen: React.FC<TProps> = () => {
           <View style={styles.slider}>
             <Slider
               value={timeInterval}
-              onValueChange={setTimeInterval}
+              onValueChange={handleTimeInterval}
               minimumValue={MINIMUM_TIME_INTERVAL}
               maximumValue={MAXIMUM_TIME_INTERVAL}
               step={TIME_INTERVAL_STEP}

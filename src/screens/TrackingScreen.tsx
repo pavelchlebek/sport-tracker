@@ -12,7 +12,10 @@ import {
 } from 'react-native';
 
 import { useLocationContext } from '../store/LocationContext';
-import { calculateDistance } from '../utils/helpers';
+import {
+  calculateDistance,
+  confirmAction,
+} from '../utils/helpers';
 import { locationService } from '../utils/locationService';
 
 type TProps = {
@@ -125,11 +128,19 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   const handleTracking = () => {
     if (tracking) {
-      stopTracking()
-      setTracking(false)
+      confirmAction({
+        title: "Stopping Tracking",
+        confirmText: "STOP",
+        onConfirm: () => stopTracking(),
+        message: "Do you really want to STOP tracking?",
+      })
     } else {
-      startTracking()
-      setTracking(true)
+      confirmAction({
+        title: "Starting Tracking",
+        onConfirm: () => startTracking(),
+        confirmText: "START",
+        message: "Do ypu really want to START tracking?",
+      })
     }
   }
 
