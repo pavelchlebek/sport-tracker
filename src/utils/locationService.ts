@@ -1,13 +1,13 @@
-import { TLocation } from '../screens/TrackingScreen';
+import { LocationObject } from 'expo-location';
 
-export type TSubscriber = ({ long, lat }: TLocation) => void
+export type TSubscriber = (location: LocationObject) => void
 
 const LocationService = () => {
   let subscribers: TSubscriber[] = []
 
   return {
     subscribe: (sub: TSubscriber) => subscribers.push(sub),
-    setLocation: (coords: TLocation) => {
+    setLocation: (coords: LocationObject) => {
       subscribers.forEach((sub: TSubscriber) => sub(coords))
     },
     unsubscribe: (sub: TSubscriber) => {

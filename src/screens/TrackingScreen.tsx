@@ -5,7 +5,6 @@ import { StatusBar } from 'expo-status-bar';
 import * as TaskManager from 'expo-task-manager';
 import {
   Button,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -13,9 +12,10 @@ import {
 
 import { useLocationContext } from '../store/LocationContext';
 import {
-  calculateDistance,
-  confirmAction,
-} from '../utils/helpers';
+  colorDanger,
+  textMedium,
+} from '../themes/theme';
+import { confirmAction } from '../utils/helpers';
 import { locationService } from '../utils/locationService';
 
 type TProps = {
@@ -41,11 +41,8 @@ TaskManager.defineTask(
       return
     }
     if (data.locations) {
-      const { latitude, longitude } = data.locations[0].coords
-      locationService.setLocation({
-        lat: latitude,
-        long: longitude,
-      })
+      // const { latitude, longitude } = data.locations[0].coords
+      locationService.setLocation(data.locations[0])
     }
   }
 )
@@ -55,10 +52,8 @@ const MILLISECONDS_IN_SECOND = 1000
 export const TrackingScreen: React.FC<TProps> = () => {
   const [errorMsg, setErrorMsg] = React.useState<unknown>()
 
-  const [positions, setPositions] = React.useState<TLocation[]>([])
+  const [positions, setPositions] = React.useState<Location.LocationObject[]>([])
   const [distance, setDistance] = React.useState(0)
-
-  // const [tracking, setTracking] = React.useState(false)
 
   //----------- LocationContext stuff -------------------------------------
 
@@ -66,24 +61,24 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   // ----------------------------------------------------------------------
 
-  const onLocationUpdate = ({ lat, long }: TLocation) => {
+  const onLocationUpdate = (location: Location.LocationObject) => {
     // console.log("onLocationUpdate")
     setPositions((prev) => {
       const updatedPositions = [...prev]
-      updatedPositions.push({ lat, long })
+      updatedPositions.push(location)
       return updatedPositions
     })
   }
 
-  React.useEffect(() => {
-    if (positions.length > 1) {
-      setDistance((prev) => {
-        return (
-          prev + calculateDistance(positions[positions.length - 2], positions[positions.length - 1])
-        )
-      })
-    }
-  }, [positions])
+  // React.useEffect(() => {
+  //   if (positions.length > 1) {
+  //     setDistance((prev) => {
+  //       return (
+  //         prev + calculateDistance(positions[positions.length - 2], positions[positions.length - 1])
+  //       )
+  //     })
+  //   }
+  // }, [positions])
 
   React.useEffect(() => {
     locationService.subscribe(onLocationUpdate)
@@ -146,21 +141,28 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   return (
     <View style={styles.screen}>
+      {errorMsg && (
+        <Text style={styles.danger}>
+          Some error regarding permission or location service occurred!
+        </Text>
+      )}
       <StatusBar style="auto" />
-      <View style={styles.coords}>
-        <View style={styles.data}>
-          <Text style={styles.label}>Latitude:</Text>
-          <Text style={styles.value}>
-            {positions.length > 0 && positions[positions.length - 1].lat}
-          </Text>
+      {positions.length > 0 && (
+        <View style={styles.location}>
+          <View style={styles.data}>
+            <Text style={styles.label}>Latitude:</Text>
+            <Text style={styles.value}>{positions[positions.length - 1].coords.latitude}</Text>
+          </View>
+          <View style={styles.data}>
+            <Text style={styles.label}>Longitude:</Text>
+            <Text style={styles.value}>{positions[positions.length - 1].coords.longitude}</Text>
+          </View>
+          <View style={styles.data}>
+            <Text style={styles.label}>Speed:</Text>
+            <Text style={styles.value}>{positions[positions.length - 1].coords.speed}</Text>
+          </View>
         </View>
-        <View style={styles.data}>
-          <Text style={styles.label}>Longitude:</Text>
-          <Text style={styles.value}>
-            {positions.length > 0 && positions[positions.length - 1].long}
-          </Text>
-        </View>
-      </View>
+      )}
       <Button onPress={handleTracking} title={tracking ? "Stop Tracking" : "Start Tracking"} />
       <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
         <Text style={{ ...styles.label, fontWeight: "bold" }}>Distance:</Text>
@@ -170,22 +172,6 @@ export const TrackingScreen: React.FC<TProps> = () => {
         <Text style={{ ...styles.label, fontWeight: "bold" }}>Positions Count:</Text>
         <Text style={styles.value}>{positions.length}</Text>
       </View>
-      <ScrollView>
-        {positions.map((position, index) => {
-          return (
-            <View key={index} style={styles.coords}>
-              <View style={styles.data}>
-                <Text style={styles.label}>Latitude:</Text>
-                <Text style={styles.value}>{position.lat}</Text>
-              </View>
-              <View style={styles.data}>
-                <Text style={styles.label}>Longitude:</Text>
-                <Text style={styles.value}>{position.long}</Text>
-              </View>
-            </View>
-          )
-        })}
-      </ScrollView>
       <View>
         <Text>{`Tracking: ${tracking} Accuracy: ${accuracy} TimeInterval: ${timeInterval}`}</Text>
       </View>
@@ -198,10 +184,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
     marginTop: 50,
   },
-  coords: {
+  location: {
     marginBottom: 30,
   },
   data: {
@@ -218,5 +204,9 @@ const styles = StyleSheet.create({
   },
   marginVerticalMd: {
     marginVertical: 30,
+  },
+  danger: {
+    fontSize: textMedium,
+    color: colorDanger,
   },
 })

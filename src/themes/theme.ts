@@ -2,6 +2,7 @@
 
 export const colorPrimary = "#2196F3"
 export const colorPrimaryGray = "#ccc"
+export const colorDanger = "#d9534f"
 
 // sizes
 
