@@ -15,7 +15,11 @@ import {
   colorDanger,
   textMedium,
 } from '../themes/theme';
-import { confirmAction } from '../utils/helpers';
+import { saveToStorage } from '../utils/asyncStorage';
+import {
+  calculateDistance,
+  confirmAction,
+} from '../utils/helpers';
 import { locationService } from '../utils/locationService';
 
 type TProps = {
@@ -33,6 +37,8 @@ export type TLocationData = {
 
 const BACKGROUND_LOCATION_TASK = "background-location-task"
 
+export const DEG_DELTA_TO_METERS_DELTA = 111111.111
+
 TaskManager.defineTask(
   BACKGROUND_LOCATION_TASK,
   ({ data, error }: TaskManager.TaskManagerTaskBody<TLocationData>) => {
@@ -47,7 +53,7 @@ TaskManager.defineTask(
   }
 )
 
-const MILLISECONDS_IN_SECOND = 1000
+export const MILLISECONDS_IN_SECOND = 1000
 
 export const TrackingScreen: React.FC<TProps> = () => {
   const [errorMsg, setErrorMsg] = React.useState<unknown>()
@@ -62,7 +68,6 @@ export const TrackingScreen: React.FC<TProps> = () => {
   // ----------------------------------------------------------------------
 
   const onLocationUpdate = (location: Location.LocationObject) => {
-    // console.log("onLocationUpdate")
     setPositions((prev) => {
       const updatedPositions = [...prev]
       updatedPositions.push(location)
@@ -70,15 +75,15 @@ export const TrackingScreen: React.FC<TProps> = () => {
     })
   }
 
-  // React.useEffect(() => {
-  //   if (positions.length > 1) {
-  //     setDistance((prev) => {
-  //       return (
-  //         prev + calculateDistance(positions[positions.length - 2], positions[positions.length - 1])
-  //       )
-  //     })
-  //   }
-  // }, [positions])
+  React.useEffect(() => {
+    if (positions.length > 1) {
+      setDistance((prev) => {
+        return (
+          prev + calculateDistance(positions[positions.length - 2], positions[positions.length - 1])
+        )
+      })
+    }
+  }, [positions])
 
   React.useEffect(() => {
     locationService.subscribe(onLocationUpdate)
@@ -139,6 +144,18 @@ export const TrackingScreen: React.FC<TProps> = () => {
     }
   }
 
+  const handleSave = () => {
+    const date = new Date().toISOString()
+    const dataToSave = {
+      date,
+      positions,
+      distance,
+    }
+    saveToStorage(date, dataToSave)
+    setDistance(0)
+    setPositions([])
+  }
+
   return (
     <View style={styles.screen}>
       {errorMsg && (
@@ -166,12 +183,25 @@ export const TrackingScreen: React.FC<TProps> = () => {
       <Button onPress={handleTracking} title={tracking ? "Stop Tracking" : "Start Tracking"} />
       <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
         <Text style={{ ...styles.label, fontWeight: "bold" }}>Distance:</Text>
-        <Text style={styles.value}>{(distance * 111111.111).toFixed(2)} meters</Text>
+        <Text style={styles.value}>{(distance * DEG_DELTA_TO_METERS_DELTA).toFixed(2)} meters</Text>
       </View>
       <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
         <Text style={{ ...styles.label, fontWeight: "bold" }}>Positions Count:</Text>
         <Text style={styles.value}>{positions.length}</Text>
       </View>
+      {positions.length > 0 && !tracking && (
+        <Button
+          title="Save Activity"
+          onPress={() =>
+            confirmAction({
+              title: "Saving to storage",
+              confirmText: "Save",
+              onConfirm: () => handleSave(),
+              message: "Do you really want to SAVE this activity?",
+            })
+          }
+        />
+      )}
       <View>
         <Text>{`Tracking: ${tracking} Accuracy: ${accuracy} TimeInterval: ${timeInterval}`}</Text>
       </View>

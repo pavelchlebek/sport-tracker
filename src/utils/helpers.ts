@@ -1,10 +1,13 @@
+import { LocationObject } from 'expo-location';
 import { Alert } from 'react-native';
 
-import { TLocation } from '../screens/TrackingScreen';
-
-export const calculateDistance = (prevPosition: TLocation, currentPosition: TLocation) => {
+export const calculateDistance = (
+  prevPosition: LocationObject,
+  currentPosition: LocationObject
+) => {
   return Math.sqrt(
-    (prevPosition.lat - currentPosition.lat) ** 2 + (prevPosition.long - currentPosition.long) ** 2
+    (prevPosition.coords.latitude - currentPosition.coords.latitude) ** 2 +
+      (prevPosition.coords.longitude - currentPosition.coords.longitude) ** 2
   )
 }
 
