@@ -10,6 +10,7 @@ import {
 import { Slider } from '@rneui/base';
 
 import { AppCheckbox } from '../components/AppCheckbox';
+import { useLocationContext } from '../store/LocationContext';
 import {
   colorPrimary,
   colorPrimaryGray,
@@ -30,9 +31,11 @@ const MAXIMUM_TIME_INTERVAL = 60
 const TIME_INTERVAL_STEP = 1
 
 export const SettingsScreen: React.FC<TProps> = () => {
-  const [timeInterval, setTimeInterval] = React.useState(15)
+  // ----------- LocationContext stuff -------------------------------------
 
-  const [accuracy, setAccuracy] = React.useState<LocationAccuracy>(3)
+  const { accuracy, setAccuracy, setTimeInterval, timeInterval, tracking } = useLocationContext()
+
+  // -----------------------------------------------------------------------
 
   const checkBoxes: React.ComponentProps<typeof AppCheckbox>[] = [
     {
@@ -101,7 +104,8 @@ export const SettingsScreen: React.FC<TProps> = () => {
             )
           })}
         </View>
-        <Text>{accuracy}</Text>
+        <Text style={styles.temporaryData}>{accuracy}</Text>
+        <Text style={styles.temporaryData}>{`${tracking ? "Tracking" : "Stopped"}`}</Text>
       </View>
     </View>
   )
@@ -156,4 +160,8 @@ const styles = StyleSheet.create({
   },
   accuracyLabel: {},
   options: {},
+  temporaryData: {
+    marginBottom: marginSmall,
+    fontSize: textMedium,
+  },
 })

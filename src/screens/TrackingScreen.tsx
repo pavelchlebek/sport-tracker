@@ -38,7 +38,6 @@ TaskManager.defineTask(
       return
     }
     if (data.locations) {
-      // console.log("taskManager: ", data.locations)
       const { latitude, longitude } = data.locations[0].coords
       locationService.setLocation({
         lat: latitude,
@@ -48,17 +47,19 @@ TaskManager.defineTask(
   }
 )
 
+const MILLISECONDS_IN_SECOND = 1000
+
 export const TrackingScreen: React.FC<TProps> = () => {
   const [errorMsg, setErrorMsg] = React.useState<unknown>()
 
   const [positions, setPositions] = React.useState<TLocation[]>([])
   const [distance, setDistance] = React.useState(0)
 
-  const [tracking, setTracking] = React.useState(false)
+  // const [tracking, setTracking] = React.useState(false)
 
   //----------- LocationContext stuff -------------------------------------
 
-  const locationContext = useLocationContext()
+  const { accuracy, timeInterval, tracking, setTracking } = useLocationContext()
 
   // ----------------------------------------------------------------------
 
@@ -97,8 +98,8 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
       if (backgroundPermissions.status === "granted") {
         await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
-          accuracy: 6,
-          timeInterval: 5000,
+          accuracy: accuracy,
+          timeInterval: timeInterval * MILLISECONDS_IN_SECOND,
           distanceInterval: 0,
           deferredUpdatesInterval: 0,
           showsBackgroundLocationIndicator: true,
@@ -125,10 +126,10 @@ export const TrackingScreen: React.FC<TProps> = () => {
   const handleTracking = () => {
     if (tracking) {
       stopTracking()
-      locationContext.setTracking(false)
+      setTracking(false)
     } else {
       startTracking()
-      locationContext.setTracking(true)
+      setTracking(true)
     }
   }
 
@@ -175,7 +176,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
         })}
       </ScrollView>
       <View>
-        <Text>{`Tracking: ${locationContext.tracking} Accuracy: ${locationContext.accuracy} TimeInterval: ${locationContext.timeInterval}`}</Text>
+        <Text>{`Tracking: ${tracking} Accuracy: ${accuracy} TimeInterval: ${timeInterval}`}</Text>
       </View>
     </View>
   )
