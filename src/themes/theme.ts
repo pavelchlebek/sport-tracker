@@ -12,7 +12,7 @@ export const sliderTrackHeight = 1
 // font sizes
 
 export const textSmall = 12
-export const textMedium = 18
+export const textMedium = 16
 export const textLarge = 26
 export const textXL = 40
 

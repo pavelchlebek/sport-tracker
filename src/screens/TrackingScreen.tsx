@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 
+import { ActivityData } from '../components/ActivityData';
 import { useLocationContext } from '../store/LocationContext';
 import {
   colorDanger,
@@ -185,6 +186,13 @@ export const TrackingScreen: React.FC<TProps> = () => {
         </View>
       )}
       <Button onPress={handleTracking} title={tracking ? "Stop Tracking" : "Start Tracking"} />
+      <ActivityData
+        altitude={360}
+        averageSpeed={1.7}
+        distance={587.344982654}
+        positions={positions.length}
+        time={1500}
+      />
       <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
         <Text style={{ ...styles.label, fontWeight: "bold" }}>Distance:</Text>
         <Text style={styles.value}>{(distance * DEG_DELTA_TO_METERS_DELTA).toFixed(2)} meters</Text>
