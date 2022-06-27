@@ -78,9 +78,6 @@ export const ActivityOverviewScreen: React.FC<TProps> = () => {
         }`}</Text>
         <Text style={styles.data}>{`Date: ${currentActivity?.date}`}</Text>
       </View>
-      {/* <Text style={styles.positions}>
-        {JSON.stringify(currentActivity?.positions).slice(0, 1000)}
-      </Text> */}
       <Button title="Back to list" onPress={() => setCurrentActivity(undefined)} />
     </View>
   )

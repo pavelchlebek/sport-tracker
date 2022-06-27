@@ -26,11 +26,6 @@ type TProps = {
   children?: never
 }
 
-export type TLocation = {
-  lat: number
-  long: number
-}
-
 export type TLocationData = {
   locations?: Location.LocationObject[]
 }
@@ -97,9 +92,10 @@ export const TrackingScreen: React.FC<TProps> = () => {
     setTracking(true)
 
     try {
+      const foregroundPermission = await Location.requestForegroundPermissionsAsync()
       const backgroundPermissions = await Location.requestBackgroundPermissionsAsync()
 
-      if (backgroundPermissions.status === "granted") {
+      if (backgroundPermissions.status === "granted" && foregroundPermission.status === "granted") {
         await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
           accuracy: accuracy,
           timeInterval: timeInterval * MILLISECONDS_IN_SECOND,
@@ -156,12 +152,20 @@ export const TrackingScreen: React.FC<TProps> = () => {
     setPositions([])
   }
 
+  const deleteActivity = () => {
+    setDistance(0)
+    setPositions([])
+  }
+
   return (
     <View style={styles.screen}>
       {errorMsg && (
-        <Text style={styles.danger}>
-          Some error regarding permission or location service occurred!
-        </Text>
+        <View style={styles.errorMessages}>
+          <Text style={styles.danger}>
+            Some error regarding permission or location service occurred!
+          </Text>
+          <Text style={styles.danger}>{JSON.stringify(errorMsg)}</Text>
+        </View>
       )}
       <StatusBar style="auto" />
       {positions.length > 0 && (
@@ -190,17 +194,30 @@ export const TrackingScreen: React.FC<TProps> = () => {
         <Text style={styles.value}>{positions.length}</Text>
       </View>
       {positions.length > 0 && !tracking && (
-        <Button
-          title="Save Activity"
-          onPress={() =>
-            confirmAction({
-              title: "Saving to storage",
-              confirmText: "Save",
-              onConfirm: () => handleSave(),
-              message: "Do you really want to SAVE this activity?",
-            })
-          }
-        />
+        <View style={styles.savingButtons}>
+          <Button
+            title="Save Activity"
+            onPress={() =>
+              confirmAction({
+                title: "Saving to storage",
+                confirmText: "Save",
+                onConfirm: () => handleSave(),
+                message: "Do you really want to SAVE this activity?",
+              })
+            }
+          />
+          <Button
+            title="Delete Activity"
+            onPress={() =>
+              confirmAction({
+                title: "Deleting",
+                confirmText: "Delete",
+                onConfirm: () => deleteActivity(),
+                message: "Do you really want to DELETE this activity?",
+              })
+            }
+          />
+        </View>
       )}
       <View>
         <Text>{`Tracking: ${tracking} Accuracy: ${accuracy} TimeInterval: ${timeInterval}`}</Text>
@@ -238,5 +255,14 @@ const styles = StyleSheet.create({
   danger: {
     fontSize: textMedium,
     color: colorDanger,
+  },
+  savingButtons: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-around",
+  },
+  errorMessages: {
+    justifyContent: "space-around",
+    height: 130,
   },
 })
