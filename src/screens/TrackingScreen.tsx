@@ -20,6 +20,8 @@ import { saveToStorage } from '../utils/asyncStorage';
 import {
   calculateDistance,
   confirmAction,
+  getActivityTotalTime,
+  getAverageSpeed,
 } from '../utils/helpers';
 import { locationService } from '../utils/locationService';
 
@@ -169,7 +171,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
         </View>
       )}
       <StatusBar style="auto" />
-      {positions.length > 0 && (
+      {positions.length > 1 && (
         <View style={styles.location}>
           <View style={styles.data}>
             <Text style={styles.label}>Latitude:</Text>
@@ -179,28 +181,18 @@ export const TrackingScreen: React.FC<TProps> = () => {
             <Text style={styles.label}>Longitude:</Text>
             <Text style={styles.value}>{positions[positions.length - 1].coords.longitude}</Text>
           </View>
-          <View style={styles.data}>
-            <Text style={styles.label}>Speed:</Text>
-            <Text style={styles.value}>{positions[positions.length - 1].coords.speed}</Text>
-          </View>
         </View>
       )}
       <Button onPress={handleTracking} title={tracking ? "Stop Tracking" : "Start Tracking"} />
-      <ActivityData
-        altitude={360}
-        averageSpeed={1.7}
-        distance={587.344982654}
-        positions={positions.length}
-        time={1500}
-      />
-      <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
-        <Text style={{ ...styles.label, fontWeight: "bold" }}>Distance:</Text>
-        <Text style={styles.value}>{(distance * DEG_DELTA_TO_METERS_DELTA).toFixed(2)} meters</Text>
-      </View>
-      <View style={{ ...styles.data, ...styles.marginVerticalMd }}>
-        <Text style={{ ...styles.label, fontWeight: "bold" }}>Positions Count:</Text>
-        <Text style={styles.value}>{positions.length}</Text>
-      </View>
+      {positions.length > 1 && (
+        <ActivityData
+          altitude={positions[positions.length - 1].coords.altitude}
+          averageSpeed={getAverageSpeed(positions, distance * DEG_DELTA_TO_METERS_DELTA)}
+          distance={distance * DEG_DELTA_TO_METERS_DELTA}
+          positions={positions.length}
+          time={getActivityTotalTime(positions)}
+        />
+      )}
       {positions.length > 0 && !tracking && (
         <View style={styles.savingButtons}>
           <Button

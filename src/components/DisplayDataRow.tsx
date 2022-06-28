@@ -13,7 +13,7 @@ import {
 
 type TProps = {
   label: string
-  value: string | number
+  value: string | number | null
   unit?: string
   children?: never
 }

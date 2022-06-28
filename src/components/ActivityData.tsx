@@ -12,7 +12,7 @@ type TProps = {
   distance: number
   time: number
   positions: number
-  altitude: number
+  altitude: number | null
 }
 
 export const MILLISECONDS_IN_SECOND = 1000
@@ -26,7 +26,15 @@ export const displayTime = (timeInMilliseconds: number): string => {
   minutes = minutes - hours * MINUTES_IN_HOUR
   seconds = seconds - hours * MINUTES_IN_HOUR * SECONDS_IN_MINUTE - minutes * SECONDS_IN_MINUTE
 
-  return `${hours} h ${minutes} m ${seconds} s`
+  let timeString = ""
+  if (hours > 0) {
+    timeString = `${hours} h ${minutes} m ${seconds} s`
+  } else if (minutes > 0) {
+    timeString = `${minutes} m ${seconds} s`
+  } else {
+    timeString = `${seconds} s`
+  }
+  return timeString
 }
 
 export const ActivityData: React.FC<TProps> = ({
@@ -40,9 +48,13 @@ export const ActivityData: React.FC<TProps> = ({
     <View style={styles.container}>
       <DisplayDataRow label="Distance" value={distance.toFixed(2)} unit="meters" />
       <DisplayDataRow label="Time" value={displayTime(time)} />
-      <DisplayDataRow label="Average Speed" value={averageSpeed} unit="km/h" />
+      <DisplayDataRow label="Average Speed" value={averageSpeed.toFixed(2)} unit="km/h" />
 
-      <DisplayDataRow label="Altitude" value={altitude} unit="MAMSL" />
+      <DisplayDataRow
+        label="Altitude"
+        value={altitude ? Math.floor(altitude) : null}
+        unit="MAMSL"
+      />
       <DisplayDataRow label="Positions Count" value={positions} />
     </View>
   )
