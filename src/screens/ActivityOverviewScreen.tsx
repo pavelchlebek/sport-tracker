@@ -12,12 +12,18 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { ActivityData } from '../components/ActivityData';
 import {
+  marginLarge,
   marginMedium,
   marginSmall,
   marginXL,
   textMedium,
 } from '../themes/theme';
+import {
+  getActivityTotalTime,
+  getAverageSpeed,
+} from '../utils/helpers';
 import { DEG_DELTA_TO_METERS_DELTA } from './TrackingScreen';
 
 type TProps = {
@@ -72,12 +78,26 @@ export const ActivityOverviewScreen: React.FC<TProps> = () => {
 
   const activityDetail = (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View>
+      {/* <View>
         <Text style={styles.data}>{`Distance: ${
           currentActivity?.distance! * DEG_DELTA_TO_METERS_DELTA
         }`}</Text>
         <Text style={styles.data}>{`Date: ${currentActivity?.date}`}</Text>
-      </View>
+      </View> */}
+      {currentActivity && (
+        <View style={styles.activityData}>
+          <ActivityData
+            // altitude={currentActivity.positions[currentActivity.positions.length - 1].coords.altitude}
+            averageSpeed={getAverageSpeed(
+              currentActivity.positions,
+              currentActivity.distance * DEG_DELTA_TO_METERS_DELTA
+            )}
+            distance={currentActivity.distance * DEG_DELTA_TO_METERS_DELTA}
+            positions={currentActivity.positions.length}
+            time={getActivityTotalTime(currentActivity.positions)}
+          />
+        </View>
+      )}
       <Button title="Back to list" onPress={() => setCurrentActivity(undefined)} />
     </View>
   )
@@ -91,6 +111,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: marginXL,
+  },
+  activityData: {
+    marginBottom: marginLarge,
+    width: "100%",
+    alignItems: "center",
   },
   listItem: {
     fontSize: textMedium,

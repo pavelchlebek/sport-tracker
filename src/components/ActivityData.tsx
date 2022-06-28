@@ -12,7 +12,7 @@ type TProps = {
   distance: number
   time: number
   positions: number
-  altitude: number | null
+  altitude?: number | null
 }
 
 export const MILLISECONDS_IN_SECOND = 1000
@@ -50,11 +50,13 @@ export const ActivityData: React.FC<TProps> = ({
       <DisplayDataRow label="Time" value={displayTime(time)} />
       <DisplayDataRow label="Average Speed" value={averageSpeed.toFixed(2)} unit="km/h" />
 
-      <DisplayDataRow
-        label="Altitude"
-        value={altitude ? Math.floor(altitude) : null}
-        unit="MAMSL"
-      />
+      {altitude && (
+        <DisplayDataRow
+          label="Altitude"
+          value={altitude ? Math.floor(altitude) : null}
+          unit="MAMSL"
+        />
+      )}
       <DisplayDataRow label="Positions Count" value={positions} />
     </View>
   )

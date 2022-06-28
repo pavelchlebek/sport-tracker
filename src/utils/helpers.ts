@@ -1,7 +1,9 @@
 import { LocationObject } from 'expo-location';
 import { Alert } from 'react-native';
 
-import { MILLISECONDS_IN_SECOND } from '../screens/TrackingScreen';
+import { MILLISECONDS_IN_SECOND } from '../components/ActivityData';
+
+// import { MILLISECONDS_IN_SECOND } from '../screens/TrackingScreen';
 
 export const METERS_PER_SECOND_TO_KILOMETERS_PER_HOUR = 3.6
 

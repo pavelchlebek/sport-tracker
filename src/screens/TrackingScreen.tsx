@@ -61,7 +61,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   //----------- LocationContext stuff -------------------------------------
 
-  const { accuracy, timeInterval, tracking, setTracking } = useLocationContext()
+  const { accuracy, timeInterval, tracking, setTracking, deviation } = useLocationContext()
 
   // ----------------------------------------------------------------------
 
@@ -77,7 +77,9 @@ export const TrackingScreen: React.FC<TProps> = () => {
     if (positions.length > 1) {
       setDistance((prev) => {
         return (
-          prev + calculateDistance(positions[positions.length - 2], positions[positions.length - 1])
+          prev +
+          calculateDistance(positions[positions.length - 2], positions[positions.length - 1]) -
+          deviation / DEG_DELTA_TO_METERS_DELTA
         )
       })
     }
@@ -220,7 +222,9 @@ export const TrackingScreen: React.FC<TProps> = () => {
         </View>
       )}
       <View>
-        <Text>{`Tracking: ${tracking} Accuracy: ${accuracy} TimeInterval: ${timeInterval}`}</Text>
+        <Text>{`Tracking: ${tracking} Accuracy: ${accuracy} TimeInterval: ${timeInterval} Deviation: ${deviation.toFixed(
+          2
+        )}`}</Text>
       </View>
     </View>
   )

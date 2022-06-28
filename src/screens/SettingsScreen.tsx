@@ -27,14 +27,28 @@ type TProps = {
   children?: never
 }
 
+// time interval constants
 const MINIMUM_TIME_INTERVAL = 2
 const MAXIMUM_TIME_INTERVAL = 60
 const TIME_INTERVAL_STEP = 1
 
+// deviation constants
+const MINIMUM_DEVIATION = 0
+const MAXIMUM_DEVIATION = 6
+const DEVIATION_INTERVAL_STEP = 0.1
+
 export const SettingsScreen: React.FC<TProps> = () => {
   // ----------- LocationContext stuff -------------------------------------
 
-  const { accuracy, setAccuracy, setTimeInterval, timeInterval, tracking } = useLocationContext()
+  const {
+    accuracy,
+    setAccuracy,
+    setTimeInterval,
+    timeInterval,
+    tracking,
+    deviation,
+    setDeviation,
+  } = useLocationContext()
 
   // -----------------------------------------------------------------------
 
@@ -54,17 +68,25 @@ export const SettingsScreen: React.FC<TProps> = () => {
     setTimeInterval(timeInterval)
   }
 
+  const handleDeviation = (deviation: number) => {
+    if (tracking) {
+      showWarning("Warning", "You cannot change settings while location service is running")
+      return
+    }
+    setDeviation(deviation)
+  }
+
   const checkBoxes: React.ComponentProps<typeof AppCheckbox>[] = [
-    {
-      checked: accuracy === LocationAccuracy["Lowest"] ? true : false,
-      onPress: () => handleAccuracy(LocationAccuracy["Lowest"]),
-      title: "Lowest",
-    },
-    {
-      checked: accuracy === LocationAccuracy["Low"] ? true : false,
-      onPress: () => handleAccuracy(LocationAccuracy["Low"]),
-      title: "Low",
-    },
+    // {
+    //   checked: accuracy === LocationAccuracy["Lowest"] ? true : false,
+    //   onPress: () => handleAccuracy(LocationAccuracy["Lowest"]),
+    //   title: "Lowest",
+    // },
+    // {
+    //   checked: accuracy === LocationAccuracy["Low"] ? true : false,
+    //   onPress: () => handleAccuracy(LocationAccuracy["Low"]),
+    //   title: "Low",
+    // },
     {
       checked: accuracy === LocationAccuracy["Balanced"] ? true : false,
       onPress: () => handleAccuracy(LocationAccuracy["Balanced"]),
@@ -92,7 +114,7 @@ export const SettingsScreen: React.FC<TProps> = () => {
       <View style={styles.timeInterval}>
         <Text style={styles.label}>Time Interval</Text>
         <View style={styles.timeIntervalControls}>
-          <View style={styles.slider}>
+          <View style={styles.timeIntervalSlider}>
             <Slider
               value={timeInterval}
               onValueChange={handleTimeInterval}
@@ -103,8 +125,26 @@ export const SettingsScreen: React.FC<TProps> = () => {
               trackStyle={styles.track}
               thumbStyle={styles.thumb}
             />
+            <Text style={styles.timeIntervalValue}>{`${timeInterval} meters`}</Text>
           </View>
-          <Text style={styles.timeIntervalValue}>{`${timeInterval} seconds`}</Text>
+        </View>
+      </View>
+      <View style={styles.timeInterval}>
+        <Text style={styles.label}>Deviation</Text>
+        <View style={styles.timeIntervalControls}>
+          <View style={styles.timeIntervalSlider}>
+            <Slider
+              value={deviation}
+              onValueChange={handleDeviation}
+              minimumValue={MINIMUM_DEVIATION}
+              maximumValue={MAXIMUM_DEVIATION}
+              step={DEVIATION_INTERVAL_STEP}
+              allowTouchTrack
+              trackStyle={styles.track}
+              thumbStyle={styles.thumb}
+            />
+            <Text style={styles.timeIntervalValue}>{`${deviation.toFixed(2)} meters`}</Text>
+          </View>
         </View>
       </View>
       <View style={styles.accuracy}>
@@ -150,7 +190,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  slider: {
+  timeIntervalSlider: {
+    marginHorizontal: marginLarge,
+    flex: 1,
+  },
+  distanceDeviationSlider: {
     marginHorizontal: marginLarge,
     flex: 1,
   },
