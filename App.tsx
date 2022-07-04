@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler';
+
 import React from 'react';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -5,6 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
+import { ActivityOverviewStack } from './src/navigators/ActivityOverviewStack';
 import { ActivityOverviewScreen } from './src/screens/ActivityOverviewScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { TrackingScreen } from './src/screens/TrackingScreen';
@@ -14,6 +17,7 @@ type RootTabParamList = {
   Settings: undefined
   Tracking: undefined
   Overview: undefined
+  Test: undefined
 }
 
 const Tab = createBottomTabNavigator<RootTabParamList>()
@@ -27,6 +31,7 @@ export default function App() {
             <Tab.Screen name="Settings" component={SettingsScreen} />
             <Tab.Screen name="Tracking" component={TrackingScreen} />
             <Tab.Screen name="Overview" component={ActivityOverviewScreen} />
+            <Tab.Screen name="Test" component={ActivityOverviewStack} />
           </Tab.Navigator>
         </NavigationContainer>
       </LocationContextProvider>
