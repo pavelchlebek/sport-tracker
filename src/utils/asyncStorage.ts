@@ -7,5 +7,4 @@ export const saveToStorage = async (key: string, data: any) => {
   } catch (error) {
     console.log("error: ", error)
   }
-  console.log("Saved in storage")
 }

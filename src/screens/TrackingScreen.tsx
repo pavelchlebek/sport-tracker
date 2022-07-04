@@ -45,7 +45,6 @@ TaskManager.defineTask(
       return
     }
     if (data.locations) {
-      // const { latitude, longitude } = data.locations[0].coords
       locationService.setLocation(data.locations[0])
     }
   }
@@ -140,7 +139,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
         title: "Starting Tracking",
         onConfirm: () => startTracking(),
         confirmText: "START",
-        message: "Do ypu really want to START tracking?",
+        message: "Do you really want to START tracking?",
       })
     }
   }
