@@ -49,10 +49,6 @@ const ActivityList = ({ navigation }: Props) => {
         })}
       </View>
       <Text>Home Screen</Text>
-      {/* <Button
-        title="Go to Detail"
-        onPress={() => navigation.navigate("ActivityDetail", { activityId: 15 })}
-      /> */}
     </View>
   )
 }
