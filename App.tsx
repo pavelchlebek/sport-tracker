@@ -10,7 +10,9 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { ActivityStackNavigator } from './src/navigators/ActivityStack';
+import {
+  ActivityStackNavigator,
+} from './src/navigators/ActivityStack/ActivityStackNavigator';
 import { NotificationsScreen } from './src/screens/NotificationsScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { TrackingScreen } from './src/screens/TrackingScreen';

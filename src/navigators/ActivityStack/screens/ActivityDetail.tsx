@@ -23,7 +23,7 @@ import {
   getActivityTotalTime,
   getAverageSpeed,
 } from '../../utils/helpers';
-import { TStackProps } from '../ActivityStack';
+import { TStackProps } from '../ActivityStackNavigator';
 
 type TActivity =
   | {

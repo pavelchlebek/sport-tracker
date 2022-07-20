@@ -16,8 +16,8 @@ import {
   marginXL,
   marginXS,
   textMedium,
-} from '../../themes/theme';
-import { TStackProps } from '../ActivityStack';
+} from '../../../themes/theme';
+import { TStackProps } from '../ActivityStackNavigator';
 
 export const ActivityList = ({ navigation }: TStackProps) => {
   const [activityNames, setActivityNames] = React.useState<Date[]>([])
