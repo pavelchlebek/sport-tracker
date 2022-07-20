@@ -2,10 +2,12 @@ import React from 'react';
 
 import { LocationAccuracy } from 'expo-location';
 import {
+  ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Slider } from '@rneui/base';
 
@@ -38,6 +40,7 @@ const MAXIMUM_DEVIATION = 6
 const DEVIATION_INTERVAL_STEP = 0.1
 
 export const SettingsScreen: React.FC<TProps> = () => {
+  const insets = useSafeAreaInsets()
   // ----------- LocationContext stuff -------------------------------------
 
   const {
@@ -110,7 +113,7 @@ export const SettingsScreen: React.FC<TProps> = () => {
   ]
 
   return (
-    <View style={styles.screen}>
+    <ScrollView contentContainerStyle={{ ...styles.screen, paddingTop: insets.top + 50 }}>
       <View style={styles.timeInterval}>
         <Text style={styles.label}>Time Interval</Text>
         <View style={styles.timeIntervalControls}>
@@ -164,17 +167,16 @@ export const SettingsScreen: React.FC<TProps> = () => {
         <Text style={styles.temporaryData}>{accuracy}</Text>
         <Text style={styles.temporaryData}>{`${tracking ? "Tracking" : "Stopped"}`}</Text>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     // alignItems: "center",
     justifyContent: "center",
-    marginTop: 50,
+    // marginTop: 100,
   },
   timeInterval: {
     alignItems: "center",

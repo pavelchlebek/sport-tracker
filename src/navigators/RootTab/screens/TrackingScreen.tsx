@@ -230,7 +230,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "space-around",
     marginTop: 50,
