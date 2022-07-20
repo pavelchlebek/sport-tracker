@@ -3,8 +3,8 @@ import {
   StackScreenProps,
 } from '@react-navigation/stack';
 
-import { ActivityDetail } from './screens/ActivityDetail';
-import { ActivityList } from './screens/ActivityList';
+import { ActivityDetail } from './screens/ActivityDetailScreen';
+import { ActivityList } from './screens/ActivityListScreen';
 
 type RootStackParamList = {
   ActivityList: undefined

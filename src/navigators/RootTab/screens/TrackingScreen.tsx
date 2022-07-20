@@ -10,20 +10,20 @@ import {
   View,
 } from 'react-native';
 
-import { ActivityData } from '../components/ActivityData';
-import { useLocationContext } from '../store/LocationContext';
+import { ActivityData } from '../../../components/ActivityData';
+import { useLocationContext } from '../../../store/LocationContext';
 import {
   colorDanger,
   textMedium,
-} from '../themes/theme';
-import { saveToStorage } from '../utils/asyncStorage';
+} from '../../../themes/theme';
+import { saveToStorage } from '../../../utils/asyncStorage';
 import {
   calculateDistance,
   confirmAction,
   getActivityTotalTime,
   getAverageSpeed,
-} from '../utils/helpers';
-import { locationService } from '../utils/locationService';
+} from '../../../utils/helpers';
+import { locationService } from '../../../utils/locationService';
 
 type TProps = {
   children?: never

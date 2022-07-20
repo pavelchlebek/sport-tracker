@@ -11,18 +11,20 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { ActivityData } from '../../components/ActivityData';
-import { DEG_DELTA_TO_METERS_DELTA } from '../../screens/TrackingScreen';
+import { ActivityData } from '../../../components/ActivityData';
 import {
   marginLarge,
   marginMedium,
   textLarge,
   textMedium,
-} from '../../themes/theme';
+} from '../../../themes/theme';
 import {
   getActivityTotalTime,
   getAverageSpeed,
-} from '../../utils/helpers';
+} from '../../../utils/helpers';
+import {
+  DEG_DELTA_TO_METERS_DELTA,
+} from '../../RootTab/screens/TrackingScreen';
 import { TStackProps } from '../ActivityStackNavigator';
 
 type TActivity =

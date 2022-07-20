@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 
-import { TTabProps } from '../../App';
+import { TTabProps } from '../navigators/RootTab/RootTabNavigator';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {

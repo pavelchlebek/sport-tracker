@@ -9,8 +9,8 @@ import {
 
 import { Slider } from '@rneui/base';
 
-import { AppCheckbox } from '../components/AppCheckbox';
-import { useLocationContext } from '../store/LocationContext';
+import { AppCheckbox } from '../../../components/AppCheckbox';
+import { useLocationContext } from '../../../store/LocationContext';
 import {
   colorPrimary,
   colorPrimaryGray,
@@ -20,8 +20,8 @@ import {
   sliderTrackHeight,
   textLarge,
   textMedium,
-} from '../themes/theme';
-import { showWarning } from '../utils/helpers';
+} from '../../../themes/theme';
+import { showWarning } from '../../../utils/helpers';
 
 type TProps = {
   children?: never
