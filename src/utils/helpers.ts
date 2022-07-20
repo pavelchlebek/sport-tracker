@@ -1,11 +1,11 @@
 import { LocationObject } from 'expo-location';
 import { Alert } from 'react-native';
 
-import { MILLISECONDS_IN_SECOND } from '../components/ActivityData';
-
-// import { MILLISECONDS_IN_SECOND } from '../screens/TrackingScreen';
+// constants
 
 export const METERS_PER_SECOND_TO_KILOMETERS_PER_HOUR = 3.6
+export const DEG_DELTA_TO_METERS_DELTA = 111111.111
+export const MILLISECONDS_IN_SECOND = 1000
 
 export const calculateDistance = (
   prevPosition: LocationObject,

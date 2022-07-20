@@ -19,12 +19,10 @@ import {
   textMedium,
 } from '../../../themes/theme';
 import {
+  DEG_DELTA_TO_METERS_DELTA,
   getActivityTotalTime,
   getAverageSpeed,
 } from '../../../utils/helpers';
-import {
-  DEG_DELTA_TO_METERS_DELTA,
-} from '../../RootTab/screens/TrackingScreen';
 import { TStackProps } from '../ActivityStackNavigator';
 
 type TActivity =

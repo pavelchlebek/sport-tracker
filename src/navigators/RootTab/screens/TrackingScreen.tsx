@@ -20,8 +20,10 @@ import { saveToStorage } from '../../../utils/asyncStorage';
 import {
   calculateDistance,
   confirmAction,
+  DEG_DELTA_TO_METERS_DELTA,
   getActivityTotalTime,
   getAverageSpeed,
+  MILLISECONDS_IN_SECOND,
 } from '../../../utils/helpers';
 import { locationService } from '../../../utils/locationService';
 
@@ -35,8 +37,6 @@ export type TLocationData = {
 
 const BACKGROUND_LOCATION_TASK = "background-location-task"
 
-export const DEG_DELTA_TO_METERS_DELTA = 111111.111
-
 TaskManager.defineTask(
   BACKGROUND_LOCATION_TASK,
   ({ data, error }: TaskManager.TaskManagerTaskBody<TLocationData>) => {
@@ -49,8 +49,6 @@ TaskManager.defineTask(
     }
   }
 )
-
-export const MILLISECONDS_IN_SECOND = 1000
 
 export const TrackingScreen: React.FC<TProps> = () => {
   const [errorMsg, setErrorMsg] = React.useState<unknown>()
