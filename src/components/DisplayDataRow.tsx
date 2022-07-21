@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import {
-  marginXS,
+  spacingXS,
   textMedium,
 } from '../themes/theme';
 
@@ -33,7 +33,7 @@ export const DisplayDataRow: React.FC<TProps> = ({ label, unit, value }) => {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    marginBottom: marginXS,
+    marginBottom: spacingXS,
     justifyContent: "space-between",
   },
   label: {
@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
   },
   unit: {
     fontSize: textMedium,
-    marginLeft: marginXS,
+    marginLeft: spacingXS,
   },
 })

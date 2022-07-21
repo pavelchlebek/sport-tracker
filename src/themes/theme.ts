@@ -19,15 +19,13 @@ export const textXL = 40
 
 // margins
 
-export const marginXS = 8
-export const marginSmall = 16
-export const marginMedium = 30
-export const marginLarge = 40
-export const marginXL = 60
+export const spacingXS = 8
+export const spacingSmall = 16
+export const spacingMedium = 30
+export const spacingLarge = 40
+export const spacingXL = 60
 
 // spacing
-
-export const spacingXS = 2
 
 export const spacingBadge = 18
 export const spacingBadgeLarge = 23

@@ -13,8 +13,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   colorPrimary,
-  marginXL,
-  marginXS,
+  spacingXL,
+  spacingXS,
   textMedium,
 } from '../../../themes/theme';
 import { TStackProps } from '../ActivityStackNavigator';
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     justifyContent: "space-between",
-    marginTop: marginXL,
+    marginTop: spacingXL,
   },
   scrollBox: {
     // backgroundColor: "red",
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colorPrimary,
     alignItems: "center",
-    padding: marginXS,
-    marginBottom: marginXS,
+    padding: spacingXS,
+    marginBottom: spacingXS,
   },
   listItem: {
     fontSize: textMedium,

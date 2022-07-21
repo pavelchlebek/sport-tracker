@@ -16,10 +16,10 @@ import { useLocationContext } from '../../../store/LocationContext';
 import {
   colorPrimary,
   colorPrimaryGray,
-  marginLarge,
-  marginMedium,
-  marginSmall,
   sliderTrackHeight,
+  spacingLarge,
+  spacingMedium,
+  spacingSmall,
   textLarge,
   textMedium,
 } from '../../../themes/theme';
@@ -181,11 +181,11 @@ const styles = StyleSheet.create({
   timeInterval: {
     alignItems: "center",
     // backgroundColor: colorPrimaryGray,
-    marginBottom: marginMedium,
+    marginBottom: spacingMedium,
   },
   label: {
     fontSize: textLarge,
-    marginBottom: marginSmall,
+    marginBottom: spacingSmall,
   },
   timeIntervalControls: {
     flexDirection: "row",
@@ -193,11 +193,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   timeIntervalSlider: {
-    marginHorizontal: marginLarge,
+    marginHorizontal: spacingLarge,
     flex: 1,
   },
   distanceDeviationSlider: {
-    marginHorizontal: marginLarge,
+    marginHorizontal: spacingLarge,
     flex: 1,
   },
   track: {
@@ -212,19 +212,19 @@ const styles = StyleSheet.create({
   timeIntervalValue: {
     // flex: 1,
     // backgroundColor: colorPrimary,
-    marginRight: marginLarge,
+    marginRight: spacingLarge,
     fontSize: textMedium,
     // textAlign: "center",
   },
   accuracy: {
-    marginBottom: marginMedium,
+    marginBottom: spacingMedium,
     // backgroundColor: colorPrimary,
     alignItems: "center",
   },
   accuracyLabel: {},
   options: {},
   temporaryData: {
-    marginBottom: marginSmall,
+    marginBottom: spacingSmall,
     fontSize: textMedium,
   },
 })

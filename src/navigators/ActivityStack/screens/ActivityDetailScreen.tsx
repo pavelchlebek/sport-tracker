@@ -13,8 +13,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ActivityData } from '../../../components/ActivityData';
 import {
-  marginLarge,
-  marginMedium,
+  spacingLarge,
+  spacingMedium,
   textLarge,
   textMedium,
 } from '../../../themes/theme';
@@ -90,13 +90,13 @@ const styles = StyleSheet.create({
     fontSize: textMedium,
   },
   activityData: {
-    marginBottom: marginLarge,
+    marginBottom: spacingLarge,
     width: "100%",
     alignItems: "center",
   },
   date: {
     fontSize: textLarge,
-    marginVertical: marginMedium,
+    marginVertical: spacingMedium,
   },
   dateBefore: {
     fontSize: textMedium,
