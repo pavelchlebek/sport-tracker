@@ -31,4 +31,4 @@ export const spacingXS = 2
 
 export const spacingBadge = 18
 export const spacingBadgeLarge = 23
-export const spacingBadgeOverflow = 36
+export const spacingBadgeOverflow = 30

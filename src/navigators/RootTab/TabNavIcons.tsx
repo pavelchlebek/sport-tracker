@@ -21,6 +21,7 @@ import {
   colorWhite,
   spacingBadge,
   spacingBadgeLarge,
+  spacingBadgeOverflow,
   textSmall,
   textXS,
 } from '../../themes/theme';
@@ -137,7 +138,9 @@ export const overviewIconCreator = (itemsInStorage: number): TIconRenderer => {
           label="Overview"
         />
         <View style={badgeStyle}>
-          <Text style={overviewStyles.badgeText}>{itemsInStorage}</Text>
+          <Text style={overviewStyles.badgeText}>{`${
+            itemsInStorage > 99 ? "99+" : itemsInStorage
+          }`}</Text>
         </View>
       </View>
     )
@@ -156,7 +159,8 @@ const overviewStyles = StyleSheet.create({
     right: -3,
     borderWidth: 1,
     borderColor: colorPrimary,
-    borderRadius: 50,
+    borderRadius: 100,
+    // aspectRatio: 1,
     width: spacingBadge,
     height: spacingBadge,
     backgroundColor: colorPrimary,
@@ -166,7 +170,10 @@ const overviewStyles = StyleSheet.create({
     height: spacingBadgeLarge,
     right: -7,
   },
-  badgeOverflow: {},
+  badgeOverflow: {
+    width: spacingBadgeOverflow,
+    height: spacingBadgeOverflow,
+  },
   badgeText: {
     color: colorWhite,
     fontSize: textXS,

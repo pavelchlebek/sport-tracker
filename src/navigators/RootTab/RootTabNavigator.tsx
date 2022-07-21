@@ -37,7 +37,7 @@ const Tab = createBottomTabNavigator<RootTabParamList>()
 const TAB_BAR_HEIGHT = 64
 
 export default function RootTabNavigator() {
-  const { itemsInStorage, timeInterval } = useLocationContext()
+  const { itemsInStorage } = useLocationContext()
 
   return (
     <NavigationContainer>
@@ -65,7 +65,7 @@ export default function RootTabNavigator() {
         <Tab.Screen
           name="Overview"
           component={ActivityStackNavigator}
-          options={{ tabBarIcon: overviewIconCreator(188) }}
+          options={{ tabBarIcon: overviewIconCreator(itemsInStorage) }}
         />
         <Tab.Screen
           name="Notifications"
