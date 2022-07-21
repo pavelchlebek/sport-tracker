@@ -4,6 +4,7 @@ export const colorPrimary = "#2196F3"
 export const colorPrimaryGray = "#ccc"
 export const colorDanger = "#d9534f"
 export const colorWhite = "#fff"
+export const colorBlack = "#000"
 
 // sizes
 
@@ -30,3 +31,7 @@ export const spacingXL = 60
 export const spacingBadge = 18
 export const spacingBadgeLarge = 23
 export const spacingBadgeOverflow = 30
+
+// radiuses
+
+export const radiusSmall = 4
