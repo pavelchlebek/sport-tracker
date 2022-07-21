@@ -128,7 +128,7 @@ export const SettingsScreen: React.FC<TProps> = () => {
               trackStyle={styles.track}
               thumbStyle={styles.thumb}
             />
-            <Text style={styles.timeIntervalValue}>{`${timeInterval} meters`}</Text>
+            <Text style={styles.timeIntervalValue}>{`${timeInterval} seconds`}</Text>
           </View>
         </View>
       </View>

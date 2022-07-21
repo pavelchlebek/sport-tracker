@@ -13,14 +13,16 @@ import {
   Fontisto,
   Ionicons,
 } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 
 import {
   colorPrimary,
   colorPrimaryGray,
   colorWhite,
+  spacingBadge,
+  spacingBadgeLarge,
   textSmall,
+  textXS,
 } from '../../themes/theme';
 
 type TProps = {
@@ -90,21 +92,13 @@ export const TrackingTabIcon: TIconRenderer = ({ focused }) => {
 }
 
 export const OverviewTabIcon: TIconRenderer = ({ focused }) => {
-  const [itemsInStorage, setItemsInStorage] = React.useState(0)
-
-  React.useEffect(() => {
-    AsyncStorage.getAllKeys().then((keys) => {
-      setItemsInStorage(keys.length)
-    })
-  })
-
   return (
     <TabNavIcon
       active={focused}
       icon={
         <Fontisto name="area-chart" size={24} color={focused ? colorPrimary : colorPrimaryGray} />
       }
-      label={itemsInStorage.toString()}
+      label="Overview"
     />
   )
 }
@@ -125,16 +119,57 @@ export const NotificationsTabIcon: TIconRenderer = ({ focused }) => {
   )
 }
 
-export const overviewIconCreator = (label: string): TIconRenderer => {
+export const overviewIconCreator = (itemsInStorage: number): TIconRenderer => {
+  let badgeStyle: ViewStyle = overviewStyles.badge
+  if (itemsInStorage > 99) badgeStyle = { ...overviewStyles.badge, ...overviewStyles.badgeLarge }
   return ({ focused }) => {
     return (
-      <TabNavIcon
-        active={focused}
-        icon={
-          <Fontisto name="area-chart" size={24} color={focused ? colorPrimary : colorPrimaryGray} />
-        }
-        label={label}
-      />
+      <View style={overviewStyles.container}>
+        <TabNavIcon
+          active={focused}
+          icon={
+            <Fontisto
+              name="area-chart"
+              size={24}
+              color={focused ? colorPrimary : colorPrimaryGray}
+            />
+          }
+          label="Overview"
+        />
+        <View style={badgeStyle}>
+          <Text style={overviewStyles.badgeText}>{itemsInStorage}</Text>
+        </View>
+      </View>
     )
   }
 }
+
+const overviewStyles = StyleSheet.create({
+  container: {
+    position: "relative",
+  },
+  badge: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: 0,
+    right: -3,
+    borderWidth: 1,
+    borderColor: colorPrimary,
+    borderRadius: 50,
+    width: spacingBadge,
+    height: spacingBadge,
+    backgroundColor: colorPrimary,
+  },
+  badgeLarge: {
+    width: spacingBadgeLarge,
+    height: spacingBadgeLarge,
+    right: -7,
+  },
+  badgeOverflow: {},
+  badgeText: {
+    color: colorWhite,
+    fontSize: textXS,
+    fontWeight: "700",
+  },
+})

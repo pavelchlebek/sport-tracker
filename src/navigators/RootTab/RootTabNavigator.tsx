@@ -2,13 +2,13 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   BottomTabScreenProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
+import { useLocationContext } from '../../store/LocationContext';
 import { colorWhite } from '../../themes/theme';
 import {
   ActivityStackNavigator,
@@ -34,16 +34,10 @@ export type TTabProps = BottomTabScreenProps<RootTabParamList>
 
 const Tab = createBottomTabNavigator<RootTabParamList>()
 
-const TAB_BAR_HEIGHT = 60
+const TAB_BAR_HEIGHT = 64
 
 export default function RootTabNavigator() {
-  const [itemsInStorage, setItemsInStorage] = React.useState(0)
-
-  React.useEffect(() => {
-    AsyncStorage.getAllKeys().then((keys) => {
-      setItemsInStorage(keys.length)
-    })
-  })
+  const { itemsInStorage, timeInterval } = useLocationContext()
 
   return (
     <NavigationContainer>
@@ -71,7 +65,7 @@ export default function RootTabNavigator() {
         <Tab.Screen
           name="Overview"
           component={ActivityStackNavigator}
-          options={{ tabBarIcon: overviewIconCreator(itemsInStorage.toString()) }}
+          options={{ tabBarIcon: overviewIconCreator(188) }}
         />
         <Tab.Screen
           name="Notifications"

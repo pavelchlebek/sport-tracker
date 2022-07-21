@@ -10,6 +10,8 @@ import {
   View,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { ActivityData } from '../../../components/ActivityData';
 import { useLocationContext } from '../../../store/LocationContext';
 import {
@@ -58,7 +60,8 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   //----------- LocationContext stuff -------------------------------------
 
-  const { accuracy, timeInterval, tracking, setTracking, deviation } = useLocationContext()
+  const { accuracy, timeInterval, tracking, setTracking, deviation, setItemsInStorage } =
+    useLocationContext()
 
   // ----------------------------------------------------------------------
 
@@ -142,7 +145,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
     }
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const date = new Date().toISOString()
     const dataToSave = {
       date,
@@ -152,6 +155,11 @@ export const TrackingScreen: React.FC<TProps> = () => {
     saveToStorage(date, dataToSave)
     setDistance(0)
     setPositions([])
+
+    // getting itemsInStorage count
+    AsyncStorage.getAllKeys().then((keys) => {
+      setItemsInStorage(keys.length)
+    })
   }
 
   const deleteActivity = () => {

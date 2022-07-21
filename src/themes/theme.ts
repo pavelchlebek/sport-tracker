@@ -11,6 +11,7 @@ export const sliderTrackHeight = 1
 
 // font sizes
 
+export const textXS = 10
 export const textSmall = 12
 export const textMedium = 16
 export const textLarge = 26
@@ -23,3 +24,11 @@ export const marginSmall = 16
 export const marginMedium = 30
 export const marginLarge = 40
 export const marginXL = 60
+
+// spacing
+
+export const spacingXS = 2
+
+export const spacingBadge = 18
+export const spacingBadgeLarge = 23
+export const spacingBadgeOverflow = 36
