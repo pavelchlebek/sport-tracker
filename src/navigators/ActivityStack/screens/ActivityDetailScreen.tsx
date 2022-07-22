@@ -30,8 +30,8 @@ type TActivity =
       date: string
       distance: number
       positions: LocationObject[]
-      ascent?: number
-      descent?: number
+      ascent: number
+      descent: number
     }
   | undefined
 
@@ -51,6 +51,9 @@ export const ActivityDetail = ({ navigation, route }: TStackProps) => {
     }
     getActivityDetail(route.params!.activityId)
   }, [])
+
+  console.log("asc: ", currentActivity?.ascent)
+  console.log("desc: ", currentActivity?.descent)
 
   return (
     <View style={styles.screen}>
@@ -79,6 +82,7 @@ export const ActivityDetail = ({ navigation, route }: TStackProps) => {
           />
         </View>
       )}
+      {/* <ActivityData distance={15} averageSpeed={20} positions={5} time={2000} ascent={15} /> */}
       <Button title="Back to list" onPress={() => navigation.navigate("ActivityList")} />
     </View>
   )

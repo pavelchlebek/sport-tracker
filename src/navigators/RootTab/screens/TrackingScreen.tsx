@@ -87,6 +87,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
           deviation / DEG_DELTA_TO_METERS_DELTA
         )
       })
+      console.log("Altitude: ", positions[positions.length - 1].coords.altitude)
     }
   }, [positions])
 
