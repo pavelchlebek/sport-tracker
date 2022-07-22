@@ -170,6 +170,8 @@ export const TrackingScreen: React.FC<TProps> = () => {
       date,
       positions,
       distance,
+      ascent,
+      descent,
     }
     saveToStorage(date, dataToSave)
     setDistance(0)

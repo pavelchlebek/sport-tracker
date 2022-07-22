@@ -53,12 +53,24 @@ export const ActivityData: React.FC<TProps> = ({
       <DisplayDataRow label="Distance" value={distance.toFixed(2)} unit="meters" />
       <DisplayDataRow label="Time" value={displayTime(time)} />
       <DisplayDataRow label="Average Speed" value={averageSpeed.toFixed(2)} unit="km/h" />
-      <DisplayDataRow label="Ascent" value={ascent || "no data"} unit="meters" />
-      <DisplayDataRow label="Descent" value={descent || "no date"} unit="meters" />
+      {ascent && (
+        <DisplayDataRow
+          label="Ascent"
+          value={ascent ? ascent.toFixed(2) : "no data"}
+          unit="meters"
+        />
+      )}
+      {descent && (
+        <DisplayDataRow
+          label="Descent"
+          value={descent ? descent.toFixed(2) : "no data"}
+          unit="meters"
+        />
+      )}
       {altitude && (
         <DisplayDataRow
           label="Altitude"
-          value={altitude ? Math.floor(altitude) : null}
+          value={altitude ? altitude.toFixed(2) : null}
           unit="MAMSL"
         />
       )}

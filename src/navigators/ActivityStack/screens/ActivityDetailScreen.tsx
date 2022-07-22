@@ -30,6 +30,8 @@ type TActivity =
       date: string
       distance: number
       positions: LocationObject[]
+      ascent?: number
+      descent?: number
     }
   | undefined
 
@@ -72,6 +74,8 @@ export const ActivityDetail = ({ navigation, route }: TStackProps) => {
             distance={currentActivity.distance * DEG_DELTA_TO_METERS_DELTA}
             positions={currentActivity.positions.length}
             time={getActivityTotalTime(currentActivity.positions)}
+            ascent={currentActivity.ascent}
+            descent={currentActivity.descent}
           />
         </View>
       )}
