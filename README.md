@@ -15,3 +15,16 @@ Solved by adding: `"resolutions": { "@types/react": "17.0.43" }` to `package.jso
 2. Find out more on SQLite, figure out what is more performant and when use it over AsyncStorage
 
 3. ActivityList: add effect feedback effect onPress so the user see that something is happening, add feedback on "deleteIcon" as well
+
+---
+
+## ActivityListScreen `useEffect`
+
+When loading data from AsyncStorage on the screen, adding `itemsInStorage` as a dependency instead of loading on every render
+brought huge distinguishable performance boost
+
+---
+
+### Idea
+
+1. Develop graph component and display Activity track

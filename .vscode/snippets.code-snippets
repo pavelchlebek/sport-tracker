@@ -5,7 +5,7 @@
     "body": [
       "import React from 'react'",
       "",
-      "import { View } from 'react-native'",
+      "import { View, StyleSheet } from 'react-native'",
       "",
       "type TProps = {",
       "\t${2}",
@@ -18,7 +18,8 @@
       "\t<View style={{flex: 1, alignItems: 'center'}}></View>",
       "\t)",
       "}",
-      ""
+      "",
+      "const styles = StyleSheet.create({})"
     ],
     "description": "React functional component with children"
   }

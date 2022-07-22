@@ -22,7 +22,7 @@ type TProps = {
 export const DisplayDataRow: React.FC<TProps> = ({ label, unit, value }) => {
   return (
     <View style={styles.row}>
-      <Text style={styles.label}>{label}:</Text>
+      {typeof label === "string" ? <Text style={styles.label}>{label}:</Text> : label}
       <View style={styles.valueWithUnit}>
         <Text style={styles.value}>{value}</Text>
         {unit && <Text style={styles.unit}>{unit}</Text>}

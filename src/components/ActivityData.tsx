@@ -5,6 +5,15 @@ import {
   View,
 } from 'react-native';
 
+import {
+  AltitudeLabel,
+  AscentLabel,
+  DescentLabel,
+  DistanceLabel,
+  PositionsCountLabel,
+  SpeedLabel,
+  TimeLabel,
+} from './ActivityParameterLabel';
 import { DisplayDataRow } from './DisplayDataRow';
 
 type TProps = {
@@ -50,31 +59,19 @@ export const ActivityData: React.FC<TProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <DisplayDataRow label="Distance" value={distance.toFixed(2)} unit="meters" />
-      <DisplayDataRow label="Time" value={displayTime(time)} />
-      <DisplayDataRow label="Average Speed" value={averageSpeed.toFixed(2)} unit="km/h" />
-      {ascent && (
-        <DisplayDataRow
-          label="Ascent"
-          value={ascent ? ascent.toFixed(2) : "no data"}
-          unit="meters"
-        />
-      )}
-      {descent && (
-        <DisplayDataRow
-          label="Descent"
-          value={descent ? descent.toFixed(2) : "no data"}
-          unit="meters"
-        />
-      )}
+      <DisplayDataRow label={DistanceLabel} value={distance.toFixed(2)} unit="meters" />
+      <DisplayDataRow label={TimeLabel} value={displayTime(time)} />
+      <DisplayDataRow label={SpeedLabel} value={averageSpeed.toFixed(2)} unit="km/h" />
+      {ascent && <DisplayDataRow label={AscentLabel} value={ascent.toFixed(2)} unit="meters" />}
+      {descent && <DisplayDataRow label={DescentLabel} value={descent.toFixed(2)} unit="meters" />}
       {altitude && (
         <DisplayDataRow
-          label="Altitude"
+          label={AltitudeLabel}
           value={altitude ? altitude.toFixed(2) : null}
           unit="MAMSL"
         />
       )}
-      <DisplayDataRow label="Positions Count" value={positions} />
+      <DisplayDataRow label={PositionsCountLabel} value={positions} />
     </View>
   )
 }
