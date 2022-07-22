@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   View,
 } from 'react-native';
 
@@ -23,7 +24,7 @@ import { TStackProps } from '../ActivityStackNavigator';
 export const ActivityList = ({ navigation }: TStackProps) => {
   const [activityNames, setActivityNames] = React.useState<Date[]>([])
 
-  const { setItemsInStorage } = useLocationContext()
+  const { setItemsInStorage, itemsInStorage } = useLocationContext()
 
   React.useEffect(() => {
     AsyncStorage.getAllKeys().then((keys) => {
@@ -34,7 +35,7 @@ export const ActivityList = ({ navigation }: TStackProps) => {
       })
       setActivityNames(datesTitles)
     })
-  })
+  }, [itemsInStorage])
 
   const handleActivityDetail = (activity: string) => {
     navigation.navigate("ActivityDetail", {
@@ -47,6 +48,8 @@ export const ActivityList = ({ navigation }: TStackProps) => {
     AsyncStorage.getAllKeys().then((keys) => {
       setItemsInStorage(keys.length)
     })
+
+    ToastAndroid.show("Activity deleted!", ToastAndroid.SHORT)
   }
 
   const handleDelete = (id: string) => {

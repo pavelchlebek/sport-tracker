@@ -9,10 +9,11 @@ import {
 import {
   spacingXS,
   textMedium,
+  textSmall,
 } from '../themes/theme';
 
 type TProps = {
-  label: string
+  label: string | React.ReactNode
   value: string | number | null
   unit?: string
   children?: never
@@ -42,12 +43,13 @@ const styles = StyleSheet.create({
   },
   valueWithUnit: {
     flexDirection: "row",
+    alignItems: "center",
   },
   value: {
     fontSize: textMedium,
   },
   unit: {
-    fontSize: textMedium,
+    fontSize: textSmall,
     marginLeft: spacingXS,
   },
 })

@@ -81,7 +81,7 @@ export const ActivityData: React.FC<TProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: "75%",
+    width: "90%",
     // borderWidth: 1,
   },
 })

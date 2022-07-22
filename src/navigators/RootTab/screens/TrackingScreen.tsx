@@ -7,6 +7,7 @@ import {
   Button,
   StyleSheet,
   Text,
+  ToastAndroid,
   View,
 } from 'react-native';
 
@@ -177,6 +178,9 @@ export const TrackingScreen: React.FC<TProps> = () => {
     setDistance(0)
     setPositions([])
 
+    // displaying saved message info
+    ToastAndroid.show("Activity saved!", ToastAndroid.SHORT)
+
     // getting itemsInStorage count
     AsyncStorage.getAllKeys().then((keys) => {
       setItemsInStorage(keys.length)
@@ -186,6 +190,9 @@ export const TrackingScreen: React.FC<TProps> = () => {
   const deleteActivity = () => {
     setDistance(0)
     setPositions([])
+
+    // displaying deleted message info
+    ToastAndroid.show("Activity deleted!", ToastAndroid.SHORT)
   }
 
   return (
