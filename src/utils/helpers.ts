@@ -17,6 +17,33 @@ export const calculateDistance = (
   )
 }
 
+export const calculateAscent = (
+  prevPosition: LocationObject,
+  currentPosition: LocationObject
+): number => {
+  if (currentPosition.coords.altitude && prevPosition.coords.altitude) {
+    const ascendDelta = currentPosition.coords.altitude - prevPosition.coords.altitude
+    if (ascendDelta > 0) {
+      return ascendDelta
+    } else {
+      return 0
+    }
+  }
+  return 0
+}
+
+export const calculateDescent = (prevPosition: LocationObject, currentPosition: LocationObject) => {
+  if (currentPosition.coords.altitude && prevPosition.coords.altitude) {
+    const ascendDelta = currentPosition.coords.altitude - prevPosition.coords.altitude
+    if (ascendDelta < 0) {
+      return ascendDelta
+    } else {
+      return 0
+    }
+  }
+  return 0
+}
+
 export const showWarning = (title: string, message?: string) => {
   Alert.alert(title, message, [
     {

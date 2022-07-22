@@ -20,6 +20,8 @@ import {
 } from '../../../themes/theme';
 import { saveToStorage } from '../../../utils/asyncStorage';
 import {
+  calculateAscent,
+  calculateDescent,
   calculateDistance,
   confirmAction,
   DEG_DELTA_TO_METERS_DELTA,
@@ -57,6 +59,8 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   const [positions, setPositions] = React.useState<Location.LocationObject[]>([])
   const [distance, setDistance] = React.useState(0)
+  const [ascent, setAscent] = React.useState(0)
+  const [descent, setDescent] = React.useState(0)
 
   //----------- LocationContext stuff -------------------------------------
 
@@ -80,6 +84,21 @@ export const TrackingScreen: React.FC<TProps> = () => {
           prev +
           calculateDistance(positions[positions.length - 2], positions[positions.length - 1]) -
           deviation / DEG_DELTA_TO_METERS_DELTA
+        )
+      })
+    }
+  }, [positions])
+
+  React.useEffect(() => {
+    if (positions.length > 1) {
+      setAscent((prev) => {
+        return (
+          prev + calculateAscent(positions[positions.length - 2], positions[positions.length - 1])
+        )
+      })
+      setDescent((prev) => {
+        return (
+          prev + calculateDescent(positions[positions.length - 2], positions[positions.length - 1])
         )
       })
     }
@@ -198,6 +217,8 @@ export const TrackingScreen: React.FC<TProps> = () => {
           distance={distance * DEG_DELTA_TO_METERS_DELTA}
           positions={positions.length}
           time={getActivityTotalTime(positions)}
+          ascent={ascent}
+          descent={descent}
         />
       )}
       {positions.length > 0 && !tracking && (

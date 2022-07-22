@@ -12,6 +12,8 @@ type TProps = {
   distance: number
   time: number
   positions: number
+  ascent?: number
+  descent?: number
   altitude?: number | null
 }
 
@@ -43,13 +45,16 @@ export const ActivityData: React.FC<TProps> = ({
   distance,
   positions,
   time,
+  ascent,
+  descent,
 }) => {
   return (
     <View style={styles.container}>
       <DisplayDataRow label="Distance" value={distance.toFixed(2)} unit="meters" />
       <DisplayDataRow label="Time" value={displayTime(time)} />
       <DisplayDataRow label="Average Speed" value={averageSpeed.toFixed(2)} unit="km/h" />
-
+      <DisplayDataRow label="Ascent" value={ascent || "no data"} unit="meters" />
+      <DisplayDataRow label="Descent" value={descent || "no date"} unit="meters" />
       {altitude && (
         <DisplayDataRow
           label="Altitude"

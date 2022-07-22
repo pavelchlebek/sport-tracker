@@ -80,16 +80,6 @@ export const SettingsScreen: React.FC<TProps> = () => {
   }
 
   const checkBoxes: React.ComponentProps<typeof AppCheckbox>[] = [
-    // {
-    //   checked: accuracy === LocationAccuracy["Lowest"] ? true : false,
-    //   onPress: () => handleAccuracy(LocationAccuracy["Lowest"]),
-    //   title: "Lowest",
-    // },
-    // {
-    //   checked: accuracy === LocationAccuracy["Low"] ? true : false,
-    //   onPress: () => handleAccuracy(LocationAccuracy["Low"]),
-    //   title: "Low",
-    // },
     {
       checked: accuracy === LocationAccuracy["Balanced"] ? true : false,
       onPress: () => handleAccuracy(LocationAccuracy["Balanced"]),
