@@ -65,8 +65,16 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   //----------- LocationContext stuff -------------------------------------
 
-  const { accuracy, timeInterval, tracking, setTracking, deviation, setItemsInStorage } =
-    useLocationContext()
+  const {
+    accuracy,
+    timeInterval,
+    tracking,
+    setTracking,
+    deviation,
+    setItemsInStorage,
+    setPositions: setLocations,
+    deletePositions,
+  } = useLocationContext()
 
   // ----------------------------------------------------------------------
 
@@ -76,6 +84,10 @@ export const TrackingScreen: React.FC<TProps> = () => {
       updatedPositions.push(location)
       return updatedPositions
     })
+
+    // setting positions to LocationContextProvider
+    // TODO delete local positions
+    setLocations(location)
   }
 
   React.useEffect(() => {
@@ -184,7 +196,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
     }
     saveToStorage(date, dataToSave)
     setDistance(0)
-    setPositions([])
+    deletePositions()
 
     // displaying saved message info
     ToastAndroid.show("Activity saved!", ToastAndroid.SHORT)
@@ -198,6 +210,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
   const deleteActivity = () => {
     setDistance(0)
     setPositions([])
+    deletePositions()
 
     // displaying deleted message info
     ToastAndroid.show("Activity deleted!", ToastAndroid.SHORT)

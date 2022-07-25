@@ -2,8 +2,6 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 
-import { Text } from 'react-native';
-
 import {
   BottomTabScreenProps,
   createBottomTabNavigator,
@@ -22,6 +20,7 @@ import { TrackingScreen } from './screens/TrackingScreen';
 import {
   NotificationsTabIcon,
   overviewIconCreator,
+  RouteTabIcon,
   SettingsTabIcon,
   TrackingTabIcon,
 } from './TabNavIcons';
@@ -76,11 +75,7 @@ export default function RootTabNavigator() {
           component={NotificationsScreen}
           options={{ tabBarIcon: NotificationsTabIcon }}
         />
-        <Tab.Screen
-          name="Route"
-          component={RouteScreen}
-          options={{ tabBarIcon: () => <Text>Route</Text> }}
-        />
+        <Tab.Screen name="Route" component={RouteScreen} options={{ tabBarIcon: RouteTabIcon }} />
       </Tab.Navigator>
     </NavigationContainer>
   )

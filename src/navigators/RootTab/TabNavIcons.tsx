@@ -12,6 +12,7 @@ import {
   AntDesign,
   Fontisto,
   Ionicons,
+  MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 
@@ -116,6 +117,22 @@ export const NotificationsTabIcon: TIconRenderer = ({ focused }) => {
         />
       }
       label="Notifications"
+    />
+  )
+}
+
+export const RouteTabIcon: TIconRenderer = ({ focused }) => {
+  return (
+    <TabNavIcon
+      active={focused}
+      icon={
+        <MaterialCommunityIcons
+          name="go-kart-track"
+          size={24}
+          color={focused ? colorPrimary : colorPrimaryGray}
+        />
+      }
+      label="Route"
     />
   )
 }

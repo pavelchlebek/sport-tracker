@@ -11,7 +11,7 @@ import {
   TrackGraph,
 } from '../../../components/TrackGraph';
 import { useLocationContext } from '../../../store/LocationContext';
-import { colorPrimary } from '../../../themes/theme';
+import { colorWhite } from '../../../themes/theme';
 
 type TProps = {
   children?: never
@@ -31,10 +31,24 @@ const points: TPoint[] = [
 export const RouteScreen: React.FC<TProps> = () => {
   const insets = useSafeAreaInsets()
   const {} = useLocationContext()
+  const { positions } = useLocationContext()
+
+  // React.useEffect(() => {
+  //   const polyPoints: TPoint[] = []
+  //   positions.forEach(position => {
+  //     polyPoints.push({x: position.coords.latitude, y: position.coords.longitude})
+  //   })
+  // }, [positions])
+
+  // console.log("positions: ", positions)
 
   return (
     <View style={{ ...styles.screen, marginTop: insets.top }}>
-      <TrackGraph points={points} />
+      <TrackGraph
+        points={positions.map((position) => {
+          return { x: position.coords.latitude, y: position.coords.longitude }
+        })}
+      />
     </View>
   )
 }
@@ -42,7 +56,7 @@ export const RouteScreen: React.FC<TProps> = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: colorPrimary,
+    backgroundColor: colorWhite,
     alignItems: "center",
     justifyContent: "center",
   },

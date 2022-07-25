@@ -6,7 +6,10 @@ import {
 } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
 
-import { colorPrimary } from '../themes/theme';
+import {
+  colorPrimary,
+  colorWhite,
+} from '../themes/theme';
 
 export type TPoint = {
   x: number
@@ -69,7 +72,7 @@ export const TrackGraph: React.FC<TProps> = ({ points }) => {
     polylinePoints += `${point.x},${point.y} `
   })
 
-  console.log(polylinePoints)
+  // console.log(polylinePoints)
 
   return (
     <Svg style={styles.canvas} height="90%" width="90%">
@@ -80,6 +83,6 @@ export const TrackGraph: React.FC<TProps> = ({ points }) => {
 
 const styles = StyleSheet.create({
   canvas: {
-    backgroundColor: "#ccc",
+    backgroundColor: colorWhite,
   },
 })
