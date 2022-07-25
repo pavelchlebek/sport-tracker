@@ -28,3 +28,10 @@ brought huge distinguishable performance boost
 ### Idea
 
 1. Develop graph component and display Activity track
+
+---
+
+Built app would not start `startLocationUpdatesAsync()`
+
+error message says: `you need to add`: `ACCESS_BACKGROUND_LOCATION` to the `AndroidManifest`
+code: `ERR_NO_PERMISSIONS`
