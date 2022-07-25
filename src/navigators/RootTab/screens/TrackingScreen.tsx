@@ -105,6 +105,14 @@ export const TrackingScreen: React.FC<TProps> = () => {
     }
   }, [positions])
 
+  // React.useEffect(() => {
+  //   if (positions.length > 0) {
+  //     console.log("Accuracy: ", positions[positions.length - 1].coords.accuracy)
+  //     console.log("Altitude: ", positions[positions.length - 1].coords.altitude)
+  //     console.log("AltitudeAccuracy: ", positions[positions.length - 1].coords.altitudeAccuracy)
+  //   }
+  // }, [positions])
+
   React.useEffect(() => {
     locationService.subscribe(onLocationUpdate)
 

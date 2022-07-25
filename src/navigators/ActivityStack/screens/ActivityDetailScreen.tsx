@@ -52,9 +52,6 @@ export const ActivityDetail = ({ navigation, route }: TStackProps) => {
     getActivityDetail(route.params!.activityId)
   }, [])
 
-  console.log("asc: ", currentActivity?.ascent)
-  console.log("desc: ", currentActivity?.descent)
-
   return (
     <View style={styles.screen}>
       {currentActivity && (

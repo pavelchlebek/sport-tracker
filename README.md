@@ -31,7 +31,15 @@ brought huge distinguishable performance boost
 
 ---
 
+### Location updated in built app
+
 Built app would not start `startLocationUpdatesAsync()`
 
 error message says: `you need to add`: `ACCESS_BACKGROUND_LOCATION` to the `AndroidManifest`
 code: `ERR_NO_PERMISSIONS`
+
+Error resolved by adding `"android.permission.ACCESS_BACKGROUND_LOCATION"` to app.json under permission array
+
+To my good surprise app `location updates` work even when app is in `background` which did not work in Expo Go
+
+And now I see that the `location updates` work even when a phone's `display is turned off` (locked)

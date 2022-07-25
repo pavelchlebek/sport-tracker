@@ -2,6 +2,8 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 
+import { Text } from 'react-native';
+
 import {
   BottomTabScreenProps,
   createBottomTabNavigator,
@@ -14,6 +16,7 @@ import {
   ActivityStackNavigator,
 } from '../ActivityStack/ActivityStackNavigator';
 import { NotificationsScreen } from './screens/NotificationsScreen';
+import { RouteScreen } from './screens/RouteScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { TrackingScreen } from './screens/TrackingScreen';
 import {
@@ -28,6 +31,7 @@ type RootTabParamList = {
   Tracking: undefined
   Notifications: undefined
   Overview: undefined
+  Route: undefined
 }
 
 export type TTabProps = BottomTabScreenProps<RootTabParamList>
@@ -71,6 +75,11 @@ export default function RootTabNavigator() {
           name="Notifications"
           component={NotificationsScreen}
           options={{ tabBarIcon: NotificationsTabIcon }}
+        />
+        <Tab.Screen
+          name="Route"
+          component={RouteScreen}
+          options={{ tabBarIcon: () => <Text>Route</Text> }}
         />
       </Tab.Navigator>
     </NavigationContainer>
