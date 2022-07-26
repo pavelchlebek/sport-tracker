@@ -195,6 +195,7 @@ export const TrackingScreen: React.FC<TProps> = () => {
       descent,
     }
     saveToStorage(date, dataToSave)
+    // TODO setPositions([])
     setDistance(0)
     deletePositions()
 

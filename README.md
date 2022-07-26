@@ -16,6 +16,16 @@ Solved by adding: `"resolutions": { "@types/react": "17.0.43" }` to `package.jso
 
 3. ActivityList: add effect feedback effect onPress so the user see that something is happening, add feedback on "deleteIcon" as well
 
+4. Debug: reset ascent / descent, delete redundant states (positions), saveHandler ...
+
+5. Make current version's code to be in compliance with best practice - take your time
+
+6. Try to write LocationContextProvider leaner - get inspiration in Martin's and Viktor's code
+
+7. Implement better logic for `pausing activity`, measuring `ascent a descent`
+
+8. Think of the many ways the app can be enhanced (graphics, start point, current point, reference points)
+
 ---
 
 ## ActivityListScreen `useEffect`
