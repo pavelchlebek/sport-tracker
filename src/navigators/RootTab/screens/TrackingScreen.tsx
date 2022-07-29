@@ -26,7 +26,6 @@ import {
   calculateDistance,
   confirmAction,
   DEG_DELTA_TO_METERS_DELTA,
-  getActivityTotalTime,
   getAverageSpeed,
   MILLISECONDS_IN_SECOND,
 } from '../../../utils/helpers';
@@ -57,6 +56,11 @@ TaskManager.defineTask(
 
 export const TrackingScreen: React.FC<TProps> = () => {
   const [errorMsg, setErrorMsg] = React.useState<unknown>()
+  const [timeEvents, setTimeEvents] = React.useState<number[]>([])
+
+  const [startTime, setStartTime] = React.useState(0)
+  const [endTime, setEndTime] = React.useState(0)
+  const [time, setTime] = React.useState(0)
 
   const [positions, setPositions] = React.useState<Location.LocationObject[]>([])
   const [distance, setDistance] = React.useState(0)
@@ -103,27 +107,11 @@ export const TrackingScreen: React.FC<TProps> = () => {
   }, [positions])
 
   React.useEffect(() => {
-    if (positions.length > 1) {
-      setAscent((prev) => {
-        return (
-          prev + calculateAscent(positions[positions.length - 2], positions[positions.length - 1])
-        )
-      })
-      setDescent((prev) => {
-        return (
-          prev + calculateDescent(positions[positions.length - 2], positions[positions.length - 1])
-        )
-      })
+    if (positions.length > 5) {
+      setAscent((prev) => prev + calculateAscent(positions))
+      setDescent((prev) => prev + calculateDescent(positions))
     }
   }, [positions])
-
-  // React.useEffect(() => {
-  //   if (positions.length > 0) {
-  //     console.log("Accuracy: ", positions[positions.length - 1].coords.accuracy)
-  //     console.log("Altitude: ", positions[positions.length - 1].coords.altitude)
-  //     console.log("AltitudeAccuracy: ", positions[positions.length - 1].coords.altitudeAccuracy)
-  //   }
-  // }, [positions])
 
   React.useEffect(() => {
     locationService.subscribe(onLocationUpdate)
@@ -133,8 +121,22 @@ export const TrackingScreen: React.FC<TProps> = () => {
     }
   }, [])
 
+  React.useEffect(() => {
+    if (tracking) {
+      setTimeout(() => {
+        const time = Date.now() - startTime
+        setTime(time)
+      }, 1000)
+    } else {
+      const time = endTime - startTime
+      setTime(time)
+    }
+  }, [time, tracking])
+
   const startTracking = async () => {
     setTracking(true)
+    setTimeEvents((prev) => [...prev, Date.now()])
+    setStartTime(Date.now())
 
     try {
       const foregroundPermission = await Location.requestForegroundPermissionsAsync()
@@ -161,6 +163,8 @@ export const TrackingScreen: React.FC<TProps> = () => {
 
   const stopTracking = async () => {
     setTracking(false)
+    setTimeEvents((prev) => [...prev, Date.now()])
+    setEndTime(Date.now())
     const value = await Location.hasStartedLocationUpdatesAsync(BACKGROUND_LOCATION_TASK)
     if (value) {
       Location.stopLocationUpdatesAsync(BACKGROUND_LOCATION_TASK)
@@ -195,9 +199,12 @@ export const TrackingScreen: React.FC<TProps> = () => {
       descent,
     }
     saveToStorage(date, dataToSave)
-    // TODO setPositions([])
+    setAscent(0)
+    setDescent(0)
+    setPositions([])
     setDistance(0)
     deletePositions()
+    setTimeEvents([])
 
     // displaying saved message info
     ToastAndroid.show("Activity saved!", ToastAndroid.SHORT)
@@ -208,10 +215,14 @@ export const TrackingScreen: React.FC<TProps> = () => {
     })
   }
 
+  // TODO: reset()
   const deleteActivity = () => {
+    setAscent(0)
+    setDescent(0)
     setDistance(0)
     setPositions([])
     deletePositions()
+    setTimeEvents([])
 
     // displaying deleted message info
     ToastAndroid.show("Activity deleted!", ToastAndroid.SHORT)
@@ -247,7 +258,8 @@ export const TrackingScreen: React.FC<TProps> = () => {
           averageSpeed={getAverageSpeed(positions, distance * DEG_DELTA_TO_METERS_DELTA)}
           distance={distance * DEG_DELTA_TO_METERS_DELTA}
           positions={positions.length}
-          time={getActivityTotalTime(positions)}
+          // time={getActivityTotalTime(positions)}
+          time={time}
           ascent={ascent}
           descent={descent}
         />
@@ -282,6 +294,8 @@ export const TrackingScreen: React.FC<TProps> = () => {
         <Text>{`Tracking: ${tracking} Accuracy: ${accuracy} TimeInterval: ${timeInterval} Deviation: ${deviation.toFixed(
           2
         )}`}</Text>
+        {/* <Text>{`timeEvents: ${timeEvents}`}</Text> */}
+        {/* <Text>{`time: ${Math.floor(time / 1000)} seconds`}</Text> */}
       </View>
     </View>
   )
